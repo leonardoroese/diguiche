@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GUICHẼ DE SENHAS</title>
+<style>
+html, body{
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	background-image: url('img/ducks.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.curnumboxh{
+	position: absolute;
+	display: inline-block;
+	float: left;
+	width: 50%;
+	left: 10%;
+	top: 5%;
+	color: #FFF;
+	background-color: DarkGreen;
+	text-align: center;
+	font-size: 8vh;
+}
+
+
+.curnumbox{
+	position: absolute;
+	display: inline-block;
+	float: left;
+	width: 50%;
+	height: 40%;
+	left: 10%;
+	top: 20%;
+	background-color: #FFF;
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+.curkey{
+	position: relative;
+	display: inline-block;
+	height: 65%;
+	width: 96%;
+	margin: 2%; 
+	padding: 0px;
+	background-color: Yellow;
+	color: Black;
+	font-weight: bold;
+	font-size: 26vh;
+	text-align: center;
+	clear: both;
+}
+
+.curkeyinv{
+	position: relative;
+	display: inline-block;
+	height: 65%;
+	width: 96%;
+	margin: 2%; 
+	padding: 0px;
+	background-color: Green;
+	color: White;
+	font-weight: bold;
+	font-size: 26vh;
+	text-align: center;
+	clear: both;
+}
+
+.curbox{
+	position: relative;
+	display: inline-block;
+	height: 20%;
+	width: 96%; 
+	margin: 1% 2% 2% 2%;
+	background-color: Blue;
+	color: White;
+	font-weight: bold;
+	font-size: 7vh;
+	text-align: center;
+}
+
+.curnumboxanth{
+	position: absolute;
+	display: inline-block;
+	float: right;
+	width: 20%;
+	height: 60%;
+	right: 10%;
+	top: 5%;
+	color: #FFF;
+	font-size: 4vh;
+	text-align: center;
+}
+
+.curnumboxant{
+	position: absolute;
+	display: inline-block;
+	float: right;
+	width: 20%;
+	height: 60%;
+	right: 10%;
+	top: 15%;
+	padding: 1%;
+	background-color: #FFF;
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+.curkeyant{
+    margin-top: 2%;
+	position: relative;
+	display: inline-block;
+	float: left;
+	height: 22%;
+	width: 68%;
+	background-color: Yellow;
+	color: Black;
+	font-weight: bold;
+	font-size: 10vh;
+	text-align: center;
+	clear: both;
+}
+
+.curboxant{
+	margin-top: 2%;
+	position: relative;
+	display: inline-block;
+	float:left;
+	height: 22%;
+	width: 28%; 
+	background-color: Blue;
+	color: White;
+	font-weight: bold;
+	font-size: 10vh;
+	text-align: center;
+}
+
+.curkeyanth{
+    margin-top: 1%;
+	position: relative;
+	display: inline-block;
+	float: left;
+	width: 68%;
+	color: Black;
+	font-weight: bold;
+	font-size: 3vh;
+	text-align: center;
+	clear: both;
+}
+
+.curboxanth{
+	margin-top: 1%;
+	position: relative;
+	display: inline-block;
+	float:left;
+	width: 28%; 
+	color: Black;
+	font-weight: bold;
+	font-size: 3vh;
+	text-align: center;
+}
+
+.curavtimebox{
+	position: absolute;
+	display: inline-block;
+	bottom: 12%;
+	left: 10%;
+	width: 50%;
+	height: 15%;
+}
+
+.curavtimebox img{
+	position: relative;
+	display: block;
+	height: 100%;
+	float: left;
+}
+
+.curavtimebox img path{
+	fill: #FFFFF;
+}
+
+.estimtimeh{
+	position: relative;
+	display: block;
+	float: left;
+	margin-left: 5%;
+	height: 100%;
+	font-size: 4vh;
+	color: #FFF;
+}
+
+.estimtime{
+	position: relative;
+	display: block;
+	float: left;
+	margin-left: 5%;
+	height: 100%;
+	font-size: 8vh;
+	color: #FFF;
+	clear: left;
+}
+
+    .blink {
+      animation: blink 1s steps(3, start) infinite;
+      -webkit-animation: blink 1s steps(3, start) infinite;
+    }
+    @keyframes blink {
+      to {
+        visibility: hidden;
+      }
+    }
+    @-webkit-keyframes blink {
+      to {
+        visibility: hidden;
+      }
+    }
+    
+</style>
+<script>
+
+var html5_audiotypes={ 
+		"mp3": "audio/mpeg",
+		"mp4": "audio/mp4",
+		"ogg": "audio/ogg",
+		"wav": "audio/wav"
+	}
+
+	function createsoundbite(sound){
+		var html5audio=document.createElement('audio')
+		if (html5audio.canPlayType){ //check support for HTML5 audio
+			for (var i=0; i<arguments.length; i++){
+				var sourceel=document.createElement('source')
+				sourceel.setAttribute('src', arguments[i])
+				if (arguments[i].match(/\.(\w+)$/i))
+					sourceel.setAttribute('type', html5_audiotypes[RegExp.$1])
+				html5audio.appendChild(sourceel)
+			}
+			html5audio.load()
+			html5audio.playclip=function(){
+				html5audio.pause()
+				html5audio.currentTime=0
+				html5audio.play()
+			}
+			return html5audio
+		}
+		else{
+			return {playclip:function(){throw new Error("Este navegador não suporta controle de audio infelizmente")}}
+		}
+	}
+var alertsnd = createsoundbite("sound/snd.wav");
+
+function blikkey(){
+	document.getElementById('kbox').className = "curkey blink";
+	setTimeout(function(){ document.getElementById('kbox').className = "curkey"; },4000);
+	
+}
+
+</script>
+</head>
+<body>
+
+	<div class="curnumboxh" onclick="if(document.getElementById('kbox').className != 'curkey blink') blikkey(); alertsnd.playclip();">
+		SENHA ATUAL
+	</div>
+	<div class="curnumboxanth">
+		Últimos Chamados &nbsp;&nbsp;
+	</div>
+	<div class="curnumbox">
+		<div id="kbox" class="curkey">P576</div>
+		<div class="curbox">Mesa 4</div>
+	</div>
+
+	<div class="curnumboxant">
+		<div class="curkeyanth">Senha</div>
+		<div class="curboxanth">Mesa</div><br>
+		
+		<div class="curkeyant">P570</div>
+		<div class="curboxant">1</div><br>
+		<div class="curkeyant">P678</div>
+		<div class="curboxant">2</div><br>
+		<div class="curkeyant">P887</div>
+		<div class="curboxant">3</div><br>
+		<div class="curkeyant">P577</div>
+		<div class="curboxant">2</div><br>
+
+	</div>
+
+	<div  class="curavtimebox">
+		<img src="img/clock.svg" />
+		<div style="float: left; width: 60%;">
+		<div class="estimtimeh">Tempo Estimado:</div>
+		<div class="estimtime">7:22s</div>
+		</div>
+	</div>
+
+</body>
+</html>
