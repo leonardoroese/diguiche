@@ -34,7 +34,7 @@ public abstract class ConBase {
 		Connection connection = null;
 		ServletContext ctx = this.scontext.getServletContext();
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("org.postgresql.Driver");
 			connection = (Connection) DriverManager.getConnection(
 					"jdbc:postgresql://" + ctx.getInitParameter("dbHost") + ":" + ctx.getInitParameter("dbPort") + "/"
 							+ ctx.getInitParameter("dbName"),
@@ -65,9 +65,9 @@ public abstract class ConBase {
 		ArrayList<DBLin> outres = null;
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("org.postgresql.Driver");
 			connection = (Connection) DriverManager.getConnection(
-					"jdbc:mysql://" + ctx.getInitParameter("dbHost") + ":" + ctx.getInitParameter("dbPort") + "/"
+					"jdbc:postgresql://" + ctx.getInitParameter("dbHost") + ":" + ctx.getInitParameter("dbPort") + "/"
 							+ ctx.getInitParameter("dbName"),
 					ctx.getInitParameter("dbUser"), ctx.getInitParameter("dbPass"));
 			Statement stmt = (Statement) connection.createStatement();
