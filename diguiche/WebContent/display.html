@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GUICHẼ DE SENHAS</title>
+<link href="css/common.css" rel="stylesheet">
+<link href="css/display.css" rel="stylesheet">
+<script>
+
+
+</script>
+</head>
+<body>
+	<input type="hidden" name="myid" id="myid" value="" />
+	<input type="hidden" name="myhost" id="myhost" value="" />
+	<div id="msgbox" class="msgbox" onclick="this.style.display='none'; "><div onclick="event.stopPropagation();" id="msginner" class="msginner"></div></div>
+	<div class="curnumboxh" onclick="if(document.getElementById('kbox').className != 'curkey blink') blikkey(); alertsnd.playclip();">
+		SENHA ATUAL
+	</div>
+	<div class="curnumboxanth">
+		Últimos Chamados &nbsp;&nbsp;
+	</div>
+	<div class="curnumbox">
+		<div id="kbox" class="curkey">----</div>
+		<div id="kmesa" class="curbox">----</div>
+	</div>
+
+	<div id="boxhist" class="curnumboxant">
+
+	</div>
+
+	<div  class="curavtimebox">
+		<img src="img/clock.svg" />
+		<div style="float: left; width: 60%;">
+		<div class="estimtimeh">Tempo Estimado:</div>
+		<div class="estimtime">7:22s</div>
+		</div>
+	</div>
+
+</body>
+
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/json2.js"></script>
+<script src="js/json_parse.js"></script>
+<script src="js/json_parse_state.js"></script>
+<script src="js/display.js"></script>
+
+</html>

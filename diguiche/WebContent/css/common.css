@@ -1,0 +1,56 @@
+html, body{
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	background-image: url('../img/ducks.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.msgbox{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	display: none;
+	background-color: rgba(0,0,0,0.5);
+	z-index: 4000;
+}
+
+.msginner{
+	width: 50%;
+	height: 20%;
+	position: fixed;
+	left: 25%;
+	top: 40%;
+	background-color: #FFF;
+	display: inline-block;
+	z-index: 4001;
+}
+
+.conflabel{
+	display: inline-block;
+	width: 120px;
+	
+}
+
+.confinput{
+	padding: 3px;
+	min-height: 20px;
+	border-radius: 4px;
+	width: 150px;
+	font-size: 12px;
+}
+
+.confsubmit{
+	border: outset 2px Black;
+	background-color: #EDEDED;
+	border-radius: 4px;
+	padding: 4px;
+	text-align: center;
+	min-width: 60px;
+	min-height: 20px;
+}
+.confsubmit:hover{
+	background-color: #CCC;
+	}

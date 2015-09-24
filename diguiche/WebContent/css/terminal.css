@@ -1,18 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>GUICHẼ DE SENHAS</title>
-<style>
-html, body{
-	width: 100%;
-	height: 100%;
-	margin: 0px;
-	padding: 0px;
-	background-image: url('img/ducks.jpg');
-	background-size: cover;
-	background-repeat: no-repeat;
-}
 
 .curnumboxh{
 	position: absolute;
@@ -103,28 +88,3 @@ html, body{
 .lastkey strong{
 	font-size: 10vh;
 }
-</style>
-
-</head>
-<body>
-
-	<div class="curnumboxh">
-		PRESSIONE UM BOTÃO PARA RETIRAR SUA SENHA
-	</div>
-
-	<div class="curnumbox">
-		<div class="curkey y">N</div><br>
-		<strong class="cboxs">Atendimento Normal</strong>
-	</div>
-
-	<div class="curnumbox2">
-		<div class="curkey b" >P</div><br>
-		<strong class="cboxs">Preferencial</strong>
-	</div>
-
-	<div class="lastkey">
-		Últim núm.: <strong>N444</strong>
-	</div>
-
-</body>
-</html>
