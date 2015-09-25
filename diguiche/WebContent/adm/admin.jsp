@@ -1,24 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="diguiche.mesa.*, diguiche.display.*, diguiche.key.*;"%>
+<%@ page import="diguiche.mesa.*, diguiche.terminal.*, diguiche.display.*, diguiche.key.*;"%>
 <%
 	Mesa mesa = new Mesa(this.getServletConfig());
 	Display display = new Display(this.getServletConfig());
+	Terminal terminal = new Terminal(this.getServletConfig());
 	Key key = new Key(this.getServletConfig());
 
 	linMesa linemesa = new linMesa();
 	linDisplay linedisplay = new linDisplay();
+	linTerminal lineterminal = new linTerminal();
 	linDisplay[] displays = null;
 	linMesa[] mesas = null;
+	linTerminal[] terminais = null;
 	linKey[] keyso = null;
 	linKey[] keysn = null;
 
 	String subMesa = "";
 	String subDisplay = "";
+	String subTerminal = "";
 	String mesaNum = "";
 	String mesaCode = "";
 	String displayNum = "";
 	String displayCode = "";
+	String terminalNum = "";
+	String terminalCode = "";
 	String keyDev = "";
 	String subKey = "";
 	String keyTipo = "";
@@ -30,6 +36,8 @@
 		subMesa = request.getParameter("subMesa").trim();
 	if (request.getParameter("subDisplay") != null)
 		subDisplay = request.getParameter("subDisplay").trim();
+	if (request.getParameter("subTerminal") != null)
+		subTerminal = request.getParameter("subTerminal").trim();
 	if (request.getParameter("subKey") != null)
 		subKey = request.getParameter("subKey").trim();
 	if (request.getParameter("subReset") != null)
@@ -42,6 +50,10 @@
 		displayNum = request.getParameter("displayNum").trim();
 	if (request.getParameter("displayCode") != null)
 		displayCode = request.getParameter("displayCode").trim();
+	if (request.getParameter("terminalNum") != null)
+		terminalNum = request.getParameter("terminalNum").trim();
+	if (request.getParameter("terminalCode") != null)
+		terminalCode = request.getParameter("terminalCode").trim();
 	if (request.getParameter("keyDev") != null)
 		keyDev = request.getParameter("keyDev").trim();
 	if (request.getParameter("keyTipo") != null)
@@ -70,6 +82,18 @@
 			pagMsg = mesa.resMsg;
 		}
 	}
+
+	if (subTerminal.toUpperCase().equals("NOVO")) {
+		lineterminal.num = terminalNum;
+		lineterminal.code = terminalCode;
+
+		linTerminal createdterminal = terminal.newTerminal(lineterminal); 
+		if (createdterminal != null) {
+			pagMsg = "Novo terminal criado com sucesso.";
+		} else {
+			pagMsg = mesa.resMsg;
+		}
+	}
 	
 	if (subKey.toUpperCase().equals("GERAR")) {
 		if (key.newKey(keyTipo, keyDev) != null) {
@@ -86,6 +110,7 @@
 
 	mesas = mesa.listMesa(null, null);
 	displays = display.listDisplay(null, null);
+	terminais = terminal.listTerminal(null, null);
 	keyso = key.listKeys(null, null, false, false, false, false);
 	keysn = key.listKeys(null, null, true, false, false, false);
 %>
@@ -97,7 +122,8 @@
 </head>
 <body>
 
-
+<h3>MESAS</h3>
+<br>
 	<form name="frmMesas" id="frmMesas" action="admin.jsp" method="post">
 
 		<label>Num</label> <input type="text" name="mesaNum" id="mesaNum"
@@ -123,6 +149,7 @@
 	</table>
 
 	<br>
+	<h3>DISPLAYS</h3>
 	<br>
 	<form name="frmDisplays" id="frmDisplays" action="admin.jsp" method="post">
 
@@ -149,9 +176,35 @@
 	</table>
 
 	<br>
+	<h3>TERMINAIS</h3>
 	<br>
 
+	<form name="frmDisplays" id="frmDisplays" action="admin.jsp" method="post">
 
+		<label>Num</label> <input type="text" name="terminalNum" id="terminalNum"
+			value="" /> <label>Código</label> <input type="text" name="terminalCode"
+			id="terminalCode" value="" /> <input type="submit" name="subTerminal"
+			value="Novo" />
+	</form>
+	<table>
+		<tr bgcolor="#EDEDED">
+			<td width="100">Número</td>
+			<td width="200">Código Dispoitivos</td>
+			<td width="100"></td>
+		</tr>
+		<%
+			if (terminais != null) {
+				for (linTerminal l : terminais) {
+					out.print("<tr><td><a href='admin.jsp?act=&id=" + l.id + "'>" + l.num + "</a></td><td>" + l.code
+							+ "</td><td><a href=''>Remover</a></td>");
+				}
+
+			}
+		%>
+	</table>
+
+	<br>
+	<br>
 	<form name="frmMesas" id="frmMesas" action="admin.jsp" method="post">
 		<label>Dispositivo</label> <input type="text" name="keyDev"
 			id="keyDev" value="" /> <select name="keyTipo">

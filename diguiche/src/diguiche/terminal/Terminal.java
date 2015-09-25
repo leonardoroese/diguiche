@@ -1,4 +1,4 @@
-package diguiche.display;
+package diguiche.terminal;
 
 import java.util.ArrayList;
 
@@ -6,62 +6,62 @@ import javax.servlet.ServletConfig;
 
 import diguiche.DBLin;
 
-public class Display extends diguiche.ConBase{
+public class Terminal extends diguiche.ConBase{
 
-	public Display(ServletConfig sconf) {
+	public Terminal(ServletConfig sconf) {
 		super(sconf);
 
 	}
 	
 
 	//###############################################################################
-	//# LIST DISPLAYS
+	//# LIST TERMINALS
 	//###############################################################################
 	
-	public linDisplay[] listDisplay(String id, String code){
-		String q = "SELECT * FROM display WHERE id > 0 ";
+	public linTerminal[] listTerminal(String id, String code){
+		String q = "SELECT * FROM terminal WHERE id > 0 ";
 		if(id != null) q = q + " AND id = " + id;
 		if(code != null) q = q + " AND code = '" + code + "' "; 
 		
 		ArrayList<DBLin> al = this.readDb(q);
 		if (al != null && al.size() > 0) {
-			linDisplay[] displays = new linDisplay[al.size()];
+			linTerminal[] terminals = new linTerminal[al.size()];
 			int c = 0;
 			for (DBLin lin : al) {
-				displays[c] = new linDisplay();
-				displays[c].id = lin.getVal("id");
-				displays[c].num = lin.getVal("num");
-				displays[c].code = lin.getVal("code");
+				terminals[c] = new linTerminal();
+				terminals[c].id = lin.getVal("id");
+				terminals[c].num = lin.getVal("num");
+				terminals[c].code = lin.getVal("code");
 				c++;
 			}
 
-			return displays;
+			return terminals;
 		}
 		return null;
 	}
 	
 	//###############################################################################
-	//# Valid DISPLAY
+	//# Valid TERMINAL
 	//###############################################################################
-	private boolean validDisplay(linDisplay display){
-		if(display == null){
+	private boolean validTerminal(linTerminal terminal){
+		if(terminal == null){
 			this.resType = "E";
-			this.resMsg = "Informe os dados da Terminal";
+			this.resMsg = "Informe os dados do Terminal";
 			return false;
 		}
-		if(display.num == null || display.num.length() <= 0){
+		if(terminal.num == null || terminal.num.length() <= 0){
 			this.resType = "E";
-			this.resMsg = "Informe o número da Terminal";
-			return false;
-		}
-		
-		if(display.code == null || display.code.length() <= 0){
-			this.resType = "E";
-			this.resMsg = "Informe o codigo da Terminal";
+			this.resMsg = "Informe o número do Terminal";
 			return false;
 		}
 		
-		String q = "SELECT * FROM display WHERE num = '" + display.num.trim() + "' ";
+		if(terminal.code == null || terminal.code.length() <= 0){
+			this.resType = "E";
+			this.resMsg = "Informe o codigo do Terminal";
+			return false;
+		}
+		
+		String q = "SELECT * FROM terminal WHERE num = '" + terminal.num.trim() + "' ";
 		ArrayList<DBLin> al = this.readDb(q);
 		if (al != null && al.size() > 0) {
 			this.resType = "E";
@@ -69,7 +69,7 @@ public class Display extends diguiche.ConBase{
 			return false;
 		}
 
-		q = "SELECT * FROM display WHERE num = '" + display.num.trim() + "' AND code = '"+display.code.trim()+"' ";
+		q = "SELECT * FROM terminal WHERE num = '" + terminal.num.trim() + "' AND code = '"+terminal.code.trim()+"' ";
 		al = this.readDb(q);
 		if (al != null && al.size() > 0) {
 			this.resType = "E";
@@ -82,21 +82,21 @@ public class Display extends diguiche.ConBase{
 	}
 	
 	//###############################################################################
-	//# New DISPLAY
+	//# New TERMINAL
 	//###############################################################################
 	
-	public linDisplay newDisplay(linDisplay display){
-		linDisplay ret = null;
+	public linTerminal newTerminal(linTerminal terminal){
+		linTerminal ret = null;
 
-		if(!this.validDisplay(display))
+		if(!this.validTerminal(terminal))
 			return null;
 		
-		String q = "INSERT INTO display (num, code) VALUES ('"+display.num.trim()+"','"+display.code.trim()+"') ";
+		String q = "INSERT INTO terminal (num, code) VALUES ('"+terminal.num.trim()+"','"+terminal.code.trim()+"') ";
 		if (this.updateDB(q)) {
-			q = "SELECT * FROM display WHERE num = '" + display.num.trim() + "' AND code = '"+display.code.trim()+"' ";
+			q = "SELECT * FROM terminal WHERE num = '" + terminal.num.trim() + "' AND code = '"+terminal.code.trim()+"' ";
 			ArrayList<DBLin> al = this.readDb(q);
 			if (al != null && al.size() > 0) {
-				ret = new linDisplay();
+				ret = new linTerminal();
 				ret.id = al.get(0).getVal("id");
 				ret.num = al.get(0).getVal("num");
 				ret.code = al.get(0).getVal("code");
@@ -104,43 +104,43 @@ public class Display extends diguiche.ConBase{
 			}
 		}else{
 			this.resType = "E";
-			this.resMsg = "Não foi possível criar display";
+			this.resMsg = "Não foi possível criar terminal";
 		}
 		return null;
 	}
 	
 
 	//###############################################################################
-	//# Change DISPLAY
+	//# Change TERMINAL
 	//###############################################################################
 	
-	public linDisplay changeDisplay(linDisplay display){
-		if(!this.validDisplay(display))
+	public linTerminal changeTerminal(linTerminal terminal){
+		if(!this.validTerminal(terminal))
 			return null;
-		if(display.id == null || display.id.length() <= 0){
+		if(terminal.id == null || terminal.id.length() <= 0){
 			this.resType = "E";
-			this.resMsg = "Informe o ID do display";
+			this.resMsg = "Informe o ID do terminal";
 			return null;			
 		}
 				
-		String q = "UPDATE display SET num = '"+display.num.trim()+"', code = '"+display.code.trim()+"' WHERE id = "+ display.id;
+		String q = "UPDATE terminal SET num = '"+terminal.num.trim()+"', code = '"+terminal.code.trim()+"' WHERE id = "+ terminal.id;
 		if (this.updateDB(q)) {
 			this.resType = "S";
 			this.resMsg = "Terminal alterado";
-			return display;
+			return terminal;
 		}else{
 			this.resType = "E";
-			this.resMsg = "Não foi possível alterar display";
+			this.resMsg = "Não foi possível alterar terminal";
 		}
 		return null;
 	}
 	
 	//###############################################################################
-	//# DEL DISPLAY
+	//# DEL TERMNAL
 	//###############################################################################
 	
-	public boolean delDisplay(String id){
-		String q = "DELETE FROM display WHERE id = " + id;
+	public boolean delTerminal(String id){
+		String q = "DELETE FROM terminal WHERE id = " + id;
 		if (this.updateDB(q)) {
 			this.resType = "S";
 			this.resMsg = "Registro Excluído";

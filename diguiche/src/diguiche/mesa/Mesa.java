@@ -46,18 +46,18 @@ public class Mesa extends diguiche.ConBase{
 	private boolean validMesa(linMesa mesa){
 		if(mesa == null){
 			this.resType = "E";
-			this.resMsg = "Informe os dados da Display";
+			this.resMsg = "Informe os dados da Terminal";
 			return false;
 		}
 		if(mesa.num == null || mesa.num.length() <= 0){
 			this.resType = "E";
-			this.resMsg = "Informe o número da Display";
+			this.resMsg = "Informe o número da Terminal";
 			return false;
 		}
 		
 		if(mesa.code == null || mesa.code.length() <= 0){
 			this.resType = "E";
-			this.resMsg = "Informe o codigo da Display";
+			this.resMsg = "Informe o codigo da Terminal";
 			return false;
 		}
 		
@@ -126,7 +126,7 @@ public class Mesa extends diguiche.ConBase{
 		String q = "UPDATE mesa SET num = '"+mesa.num.trim()+"', code = '"+mesa.code.trim()+"' WHERE id = "+ mesa.id;
 		if (this.updateDB(q)) {
 			this.resType = "S";
-			this.resMsg = "Display alterada";
+			this.resMsg = "Terminal alterada";
 			return mesa;
 		}else{
 			this.resType = "E";

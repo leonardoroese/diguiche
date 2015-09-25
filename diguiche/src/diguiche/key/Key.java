@@ -10,6 +10,8 @@ import diguiche.display.Display;
 import diguiche.display.linDisplay;
 import diguiche.mesa.Mesa;
 import diguiche.mesa.linMesa;
+import diguiche.terminal.Terminal;
+import diguiche.terminal.linTerminal;
 
 public class Key extends ConBase {
 	private ServletConfig sconf = null;
@@ -43,9 +45,9 @@ public class Key extends ConBase {
 			return null;
 		}
 
-		Mesa mesa = new Mesa(this.sconf);
-		linMesa[] lm = mesa.listMesa(null, devid);
-		if (lm == null) {
+		Terminal terminal = new Terminal(this.sconf);
+		linTerminal[] lt = terminal.listTerminal(null, devid);
+		if (lt == null) {
 			this.resType = "E";
 			this.resMsg = "Dispositivo não encontrado";
 			return null;
@@ -62,10 +64,13 @@ public class Key extends ConBase {
 		q = "INSERT INTO keys (mesa, tipo, seq, dtreg) VALUES (0,'" + tipo + "', " + String.valueOf(actseq)
 				+ ", CURRENT_TIMESTAMP)";
 		if (this.updateDB(q)) {
+			String actseqs = String.valueOf(actseq);
+			for (int i = actseqs.trim().length(); i < 3; i++)
+				actseqs = "0" + actseqs;
 			if (tipo.equals("1"))
-				return "N" + String.valueOf(actseq);
+				return "N" + actseqs;
 			if (tipo.equals("2"))
-				return "P" + String.valueOf(actseq);
+				return "P" + actseqs;
 		} else {
 			this.resType = "E";
 			this.resMsg = "Não foi possível criar senha";

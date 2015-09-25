@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>GUICHẼ DE SENHAS</title>
+<title>DIGUICHE</title>
 <link href="css/common.css" rel="stylesheet">
 <link href="css/terminal.css" rel="stylesheet">
 </head>
@@ -16,17 +16,17 @@
 	</div>
 
 	<div class="curnumbox">
-		<div class="curkey y">N</div><br>
+		<div class="curkey y" onclick="callNew('1')">N</div><br>
 		<strong class="cboxs">Atendimento Normal</strong>
 	</div>
 
 	<div class="curnumbox2">
-		<div class="curkey b" >P</div><br>
+		<div class="curkey b" onclick="callNew('2')">P</div><br>
 		<strong class="cboxs">Preferencial</strong>
 	</div>
 
 	<div class="lastkey">
-		SENHA: <strong>N444</strong>
+		SENHA: <strong id="thisid" style="background-color: Yellow; color: Blue;">----</strong>
 	</div>
 
 </body>
