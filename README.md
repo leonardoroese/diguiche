@@ -22,6 +22,24 @@ Os clientes(interfaces) sincronizam dados através de chamadas de serviço Web, 
 - Banco de dados Postgre 9.3 (pode ser 8.1 ou superior mas deve trocar o JAR JDBC - incluso 9.3)
 - JDBC4 (Driver para PGSQL)
 
+### Instalação
+
+A release contém um arquivo WAR compilado com as configurações padrão.
+
+Para modificar a configuração de conexão com o banco de dados, nesse caso será necessário gerar novo Buil, senão os caminhos padrão podem ser utilizados (localhost:5432).
+O Arquivo de configuração é o WEB.xml, parâmetros de contexto.
+
+1. Carregar o arquivo deguiche.war(compilado) no seu servidor WEB, ou realizar a compilação e Build pelo Eclipse (J2E) o arquivo de projeto já mapeia todas as dependências, basta importar o projeto para o Eclipse.
+
+2. Acesse a página config.jsp. Ela oferece um diagnóstico rápido do ambiente e permite a configuração inicial e criação de role-usuario-tabelas no banco de dados automaticamente.
+
+3. Remova a página config.jsp e o diretório configscripts para não deixar desprotegidas informações do sistema.
+
+4. Configure uma senha para o diretório /adm
+
+5. Acesse /adm/admin.jsp para criar dispositivos (sem eles não é possível atribuir identificadores para display, terminal e agente-mesas)
+
+
 ### Arquitetura
 
 
