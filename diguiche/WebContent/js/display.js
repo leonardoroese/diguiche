@@ -1,39 +1,9 @@
-var myid = document.getElementById('myid').value;
-var myhost = document.getElementById('myhost').value;
 var curkey = "";
 var oldkeys;
 
-if (myid.trim().length <= 0 || myhost.trim().length <= 0) {
-	var strhtml = "<div style='width: 100%; text-align: center;'>";
-	strhtml = strhtml + "<strong>Configuração</strong><br><br>";
-	strhtml = strhtml
-			+ "<label class='conflabel'>Host: </label><input class='confinput' type='text' name='cfgHost' id='cfgHost' value='"
-			+ myhost + "' /><br><br>";
-	strhtml = strhtml
-			+ "<label class='conflabel'>Dispositivo(ID): </label><input class='confinput' type='text' name='cfgId' id='cfgId' value='"
-			+ myid + "' />";
-	strhtml = strhtml
-			+ "<br><br><input class='confsubmit' type='submit' name='subCFG' id='subCFG' value='OK' "
-			+ "onclick=\"document.getElementById('myid').value=document.getElementById('cfgId').value; "
-			+ "document.getElementById('myhost').value=document.getElementById('cfgHost').value;"
-			+ "setInterval(function() {"
-			+ "	checkUpdate(document.getElementById('myhost').value, document.getElementById('myid').value, curkey, oldkeys)"
-			+ "}, 2000);"
-			+ "document.getElementById('msgbox').style.display='none';"
-			+ "\"/>";
-
-	strhtml = strhtml + "</div>";
-
-	document.getElementById('msginner').innerHTML = strhtml;
-	document.getElementById('msgbox').style.display = "block";
-} else {
+if (checkhost()) {
 	// Check
-	// setInterval(function() {
-	// checkUpdate(myhost, myid, curkey, oldkeys)
-	// }, 2000);
-	setTimeout(function() {
-		checkUpdate(myhost, myid, curkey, oldkeys)
-	}, 2000);
+	resumecall();
 }
 
 var html5_audiotypes = {
@@ -71,6 +41,14 @@ function createsoundbite(sound) {
 }
 var alertsnd = createsoundbite("sound/snd.wav");
 
+function resumecall(){
+	myid = document.getElementById("myid").value;
+	myhost = document.getElementById("myhost").value;
+	setInterval(function() {
+		checkUpdate(myhost, myid, curkey, oldkeys)
+		}, 2000);
+}
+
 function blikkey() {
 	document.getElementById('kbox').className = "curkey blink";
 	setTimeout(function() {
@@ -83,8 +61,7 @@ function checkUpdate(myhost, myid, curkey, oldkeys) {
 	var formData = {
 		device : myid
 	};
-	$
-			.ajax({
+			$.ajax({
 				url : myhost + "/ws/display.jsp",
 				type : "POST",
 				data : formData,

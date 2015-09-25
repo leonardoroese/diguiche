@@ -59,7 +59,7 @@ public class Key extends ConBase {
 			actseq = new Long(al.get(0).getVal("seq")).longValue();
 		}
 		actseq++;
-		q = "INSERT INTO keys (mesa, tipo, seq, dtreg) VALUES (" + lm[0].num + ",'" + tipo + "', " + String.valueOf(actseq)
+		q = "INSERT INTO keys (mesa, tipo, seq, dtreg) VALUES (0,'" + tipo + "', " + String.valueOf(actseq)
 				+ ", CURRENT_TIMESTAMP)";
 		if (this.updateDB(q)) {
 			if (tipo.equals("1"))
@@ -77,25 +77,39 @@ public class Key extends ConBase {
 	// ###############################################################################
 	// # LIST KEYS
 	// ###############################################################################
-	public linKey[] listKeys(String id, String display, boolean recent, boolean limit) {
+	public linKey[] listKeys(String id, String display, boolean recent, boolean limit, boolean mesa, boolean desc) {
 
-		String q = "SELECT keys.* FROM keys ";
-		if(display != null && display.trim().length() > 0)
+		String q = "SELECT DISTINCT keys.id, keys.mesa, keys.tipo, keys.seq, keys.dtreg, keys.dtview, keys.viewer FROM keys ";
+		if (display != null && display.trim().length() > 0)
 			q = q + " INNER JOIN display ON display.code = '" + display + "' ";
 		q = q + " LEFT JOIN keysdisplay ON keysdisplay.idkey = keys.id ";
-		if(display != null && display.trim().length() > 0)
+		if (display != null && display.trim().length() > 0)
 			q = q + " AND keysdisplay.iddisplay = display.id ";
 		q = q + " WHERE keys.id > 0 ";
 		if (id != null)
 			q = q + " AND keys.id = " + id;
-		if (recent){
+		if (mesa)
+			q = q + " AND keys.mesa = 0 ";
+		else
+			q = q + " AND keys.mesa <> 0 ";
+
+		if (recent) {
 			q = q + " AND keysdisplay.dtview IS NULL ";
-			if(display != null && display.trim().length() > 0)
+			if (display != null && display.trim().length() > 0)
 				q = q + " AND (keysdisplay.iddisplay IS NULL OR keysdisplay.iddisplay <> display.id) ";
-			q = q + " ORDER BY keys.dtreg";
-		}else{
+		} else {
 			q = q + " AND keysdisplay.dtview IS NOT NULL ";
-			q = q + " ORDER BY keys.dtreg DESC";
+		}
+		if (desc) {
+			q = q + " ORDER BY ";
+			if (recent)
+				q = q + "keys.tipo DESC, ";
+			q = q + "keys.dtreg DESC";
+		} else {
+			q = q + " ORDER BY ";
+			if (recent)
+				q = q + "keys.tipo DESC, ";
+			q = q + "keys.dtreg";
 		}
 		if (limit)
 			q = q + " LIMIT 4 ";
@@ -147,7 +161,7 @@ public class Key extends ConBase {
 			return false;
 		}
 
-		if (this.listKeys(id, devid, true, false) == null) {
+		if (this.listKeys(id, devid, true, false, false, true) == null) {
 			this.resType = "E";
 			this.resMsg = "Senha não encontrada";
 			return false;
@@ -171,6 +185,77 @@ public class Key extends ConBase {
 			this.resMsg = "Não foi possível atualizar senha";
 		}
 		return false;
+	}
+
+	// ###############################################################################
+	// # CALL KEY
+	// ###############################################################################
+	public String callKey(String id, String devid, boolean last) {
+		String q = "";
+		ArrayList<DBLin> al = null;
+
+		Mesa mesa = new Mesa(this.sconf);
+		linMesa[] lin = mesa.listMesa(null, devid);
+
+		if (lin == null) {
+			this.resType = "E";
+			this.resMsg = "Dispositivo não encontrado";
+			return null;
+		}
+
+		if (last) {
+			q = "SELECT * FROM keys WHERE mesa = " + lin[0].num + " ORDER BY dtreg DESC";
+			al = this.readDb(q);
+			if (al != null && al.size() > 0) {
+				id = al.get(0).getVal("id");
+			}
+		} else {
+			if (this.listKeys(id, null, true, false, true, true) == null) {
+				this.resType = "E";
+				this.resMsg = "Senha não encontrada";
+				return null;
+			}
+		}
+
+		if (id == null || id.trim().length() <= 0) {
+			this.resType = "E";
+			this.resMsg = "Informe o número o ID da senha";
+			return null;
+		}
+
+		if (devid == null || devid.trim().length() <= 0) {
+			this.resType = "E";
+			this.resMsg = "Informe o número o ID do dispositivo";
+			return null;
+		}
+
+		q = "UPDATE keys SET mesa = " + lin[0].num + " WHERE id = " + id;
+
+		if (this.updateDB(q)) {
+			this.resType = "S";
+			this.resMsg = "Senha solicitada";
+			// Force call
+			if (last) {
+				q = "DELETE FROM keysdisplay WHERE idkey = " + id;
+				this.updateDB(q);
+			}
+			// Get generated
+			q = "SELECT tipo, seq FROM keys WHERE id = " + id;
+			al = this.readDb(q);
+			if (al != null && al.size() > 0) {
+				String seq = al.get(0).getVal("seq");
+				for (int i = seq.trim().length(); i < 3; i++)
+					seq = "0" + seq;
+				if (al.get(0).getVal("tipo").equals("1"))
+					return "N" + seq;
+				else
+					return "P" + seq;
+			}
+		} else {
+			this.resType = "E";
+			this.resMsg = "Não foi possível solicitar senha";
+		}
+		return null;
 	}
 
 	// ###############################################################################

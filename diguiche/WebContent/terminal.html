@@ -7,6 +7,9 @@
 <link href="css/terminal.css" rel="stylesheet">
 </head>
 <body>
+	<input type="hidden" name="myid" id="myid" value="" />
+	<input type="hidden" name="myhost" id="myhost" value="" />
+	<div id="msgbox" class="msgbox" onclick="this.style.display='none'; "><div onclick="event.stopPropagation();" id="msginner" class="msginner"></div></div>
 
 	<div class="curnumboxh">
 		PRESSIONE UM BOTÃO PARA RETIRAR SUA SENHA
@@ -23,8 +26,12 @@
 	</div>
 
 	<div class="lastkey">
-		Últim núm.: <strong>N444</strong>
+		SENHA: <strong>N444</strong>
 	</div>
 
 </body>
+
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/confdevices.js"></script>
+<script src="js/terminal.js"></script>
 </html>

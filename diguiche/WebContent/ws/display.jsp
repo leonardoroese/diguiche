@@ -24,8 +24,8 @@
 
 	} else {
 
-		keyso = key.listKeys(null,device, false, true);
-		keysn = key.listKeys(null,device, true, true);
+		keyso = key.listKeys(null,device, false, true, false, true);
+		keysn = key.listKeys(null,device, true, true, false, false);
 		JSONArray jsonArrNames = new JSONArray();
 		jsonArrNames.put(0,"id");
 		jsonArrNames.put(1,"mesa");

@@ -86,8 +86,8 @@
 
 	mesas = mesa.listMesa(null, null);
 	displays = display.listDisplay(null, null);
-	keyso = key.listKeys(null, null, false, false);
-	keysn = key.listKeys(null, null, true, false);
+	keyso = key.listKeys(null, null, false, false, false, false);
+	keysn = key.listKeys(null, null, true, false, false, false);
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>

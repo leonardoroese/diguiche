@@ -8,24 +8,31 @@
 
 </head>
 <body>
+	<input type="hidden" name="myid" id="myid" value="" />
+	<input type="hidden" name="myhost" id="myhost" value="" />
+	<div id="msgbox" class="msgbox" onclick="this.style.display='none'; "><div onclick="event.stopPropagation();" id="msginner" class="msginner"></div></div>
 
 	<div class="curnumboxh">
-		COD: #4545345 (Mesa2)
+		COD: #<div id="codid"></div>
 	</div>
 
 	<div class="curnumbox">
-		<div class="curkey y" >Atual</div><br>
+		<div class="curkey y" onclick="callLast()">Últ.</div><br>
 		<strong class="cboxs">Chamar Novamente</strong>
 	</div>
 
 	<div class="curnumbox2">
-		<div class="curkey y" >Próx</div><br>
+		<div class="curkey y" onclick="callNext()">Próx</div><br>
 		<strong class="cboxs">Chamar Próxima</strong>
 	</div>
 
 	<div class="lastkey">
-		Atual: <strong style="background-color: Yellow; color: Blue;">N444</strong> Próxima: P665 
+		SENHA: <strong id="thisid" style="background-color: Yellow; color: Blue;">----</strong>
 	</div>
 
 </body>
+
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/confdevices.js"></script>
+<script src="js/agent.js"></script>
 </html>
