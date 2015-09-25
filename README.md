@@ -57,11 +57,11 @@ terminal.html  <<<id+comando:reultado>>>  /ws/terminal.jsp
 O servidor provê serviços Web para os clientes e os pontos de acesso estão na pasta /ws.
 As regras estão implementadas em classes relacionadas e não diretamente nas páginas, assim tempos
 
-Classe de Conexão |   Classe de negócios  | Interface para Serviço
-                  |                       |      
-@ConBase.java     |                       |                 
-    --->  deguiche.display.Display.java   |
-                                        --->  display.jsp
+Classe de Conexão |   Negócio   | Interface WEB
+                  |             |      
+@ConBase.java     |             |                 
+    --->     Display.java       |
+                        --->  display.jsp
   
 Para conectar ao banco usamos a classe de conexão, que é abstrata, extendida pela classe de negócios que passa a ter acesso aos métodos de conexão.
 A interface JSP instancia as classes de negócio e chama os métodos para executar processos e ações.
