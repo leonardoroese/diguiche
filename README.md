@@ -60,8 +60,8 @@ As regras estão implementadas em classes relacionadas e não diretamente nas p�
 Classe de Conexão |   Negócio   | Interface WEB
                   |             |      
 @ConBase.java     |             |                 
-    --->     Display.java       |
-                        --->  display.jsp
+         --->   *.Display.java  |
+                            --->  display.jsp
   
 Para conectar ao banco usamos a classe de conexão, que é abstrata, extendida pela classe de negócios que passa a ter acesso aos métodos de conexão.
 A interface JSP instancia as classes de negócio e chama os métodos para executar processos e ações.
