@@ -67,7 +67,7 @@ A interface JSP instancia as classes de negócio e chama os métodos para execut
 
 ### Video Tutorial
 
-Breve...
+<iframe width='420' height='315' src='https://www.youtube.com/embed/7OilFzEOh5w' frameborder='0' allowfullscreen></iframe>
 
 
 
