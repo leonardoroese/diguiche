@@ -16,11 +16,17 @@ As interfaces foram desenvolvidas em HTML+Javascript(JQuery-Ajax), não havendo 
 
 Os clientes(interfaces) sincronizam dados através de chamadas de serviço Web, trafegando mensagens de texto puro e JSON, chamando páginas em ws/*.jsp.
 
-* Pre-Requisitos *
+### Pre-Requisitos
 
 - Servidor JSP (qualquer que implemente servlets-api 2.1 ou superior)
 - Banco de dados Postgre 9.3 (pode ser 8.1 ou superior mas deve trocar o JAR JDBC - incluso 9.3)
 - JDBC4 (Driver para PGSQL)
+
+### Arquitetura
+
+
+
+### Video Tutorial
 
 
 
