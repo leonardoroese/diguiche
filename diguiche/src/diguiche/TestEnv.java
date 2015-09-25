@@ -88,7 +88,7 @@ public class TestEnv extends ConBase {
 		if (this.readDb("SELECT * FROM pg_tables WHERE has_table_privilege ('public', 'display_id_seq', 'select') AND schemaname NOT IN ('pg_catalog', 'information_schema')") == null)
 			errseq = errseq + "display|";
 		// check sequence keys
-		if (this.readDb("SELECT * FROM pg_tables WHERE has_table_privilege ('public', 'kesy_id_seq', 'select') AND schemaname NOT IN ('pg_catalog', 'information_schema')") == null)
+		if (this.readDb("SELECT * FROM pg_tables WHERE has_table_privilege ('public', 'keys_id_seq', 'select') AND schemaname NOT IN ('pg_catalog', 'information_schema')") == null)
 			errseq = errseq + "keys|";
 		// check sequence mesa
 		if (this.readDb("SELECT * FROM pg_tables WHERE has_table_privilege ('public', 'mesa_id_seq', 'select') AND schemaname NOT IN ('pg_catalog', 'information_schema')") == null)
