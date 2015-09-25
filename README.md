@@ -27,7 +27,7 @@ Os clientes(interfaces) sincronizam dados através de chamadas de serviço Web, 
 
 A release contém um arquivo WAR compilado com as configurações padrão.
 
-Para modificar a configuração de conexão com o banco de dados, nesse caso será necessário gerar novo Buil, senão os caminhos padrão podem ser utilizados (localhost:5432).
+Para modificar a configuração de conexão com o banco de dados nesse caso será necessário gerar novo Build, senão os caminhos padrão serão utilizados (localhost:5432).
 O Arquivo de configuração é o WEB.xml, parâmetros de contexto.
 
 1. Carregar o arquivo deguiche.war(compilado) no seu servidor WEB, ou realizar a compilação e Build pelo Eclipse (J2E) o arquivo de projeto já mapeia todas as dependências, basta importar o projeto para o Eclipse.
@@ -59,7 +59,7 @@ As regras estão implementadas em classes relacionadas e não diretamente nas p�
 
 Classe de Conexão--->Negócio--->Interface WEB
 
-@ConBase.java--->deguiche.display.Display.java--->/ws/display.jsp
+@ConBase.java--->diguiche.display.Display.java--->/ws/display.jsp
   
 Para conectar ao banco usamos a classe de conexão, que é abstrata, extendida pela classe de negócios que passa a ter acesso aos métodos de conexão.
 A interface JSP instancia as classes de negócio e chama os métodos para executar processos e ações.
