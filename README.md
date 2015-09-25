@@ -1,5 +1,6 @@
-# diguiche
+# diguiche 
 Aplicativo para guiche digital baseado em WEB
+(Java - JSP) 
 
 Trata-se de um aplicativo WEB para atender a necessidade de um guichê digital-web de geração de senha para atendimento.
 
@@ -42,10 +43,33 @@ O Arquivo de configuração é o WEB.xml, parâmetros de contexto.
 
 ### Arquitetura
 
+(CLIENTE)
+
+Os clientes são desenvolvidos em HTML e Javascript, fazem a comunicação com os serviços via Ajax para enviar e pedir informações.
+Para iniciar a comunicação é necessário configurar um ID para o dispositivo, assim quando a comunicação é nula ou o Id está vazio abrirá um popup para informar o host (caminho do servidor) e ID (dispositivo criado pelo admin).
+
+display.html  <<<id+comando:reultado>>>  /ws/display.jsp
+agent.html  <<<id+comando:reultado>>>  /ws/agent.jsp
+terminal.html  <<<id+comando:reultado>>>  /ws/terminal.jsp
+
+(SERVIDOR)
+
+O servidor provê serviços Web para os clientes e os pontos de acesso estão na pasta /ws.
+As regras estão implementadas em classes relacionadas e não diretamente nas páginas, assim tempos
+
+Classe de Conexão |   Classe de negócios  | Interface para Serviço
+                  |                       |      
+@ConBase.java     |                       |                 
+    --->  deguiche.display.Display.java   |
+                                        --->  display.jsp
+  
+Para conectar ao banco usamos a classe de conexão, que é abstrata, extendida pela classe de negócios que passa a ter acesso aos métodos de conexão.
+A interface JSP instancia as classes de negócio e chama os métodos para executar processos e ações.
 
 
 ### Video Tutorial
 
+Breve...
 
 
 
