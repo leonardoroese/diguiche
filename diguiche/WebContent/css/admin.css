@@ -116,6 +116,12 @@ font-family: Verdana, Arial;
 	float: left;
 }
 
+.cfgwok{
+	color: Orange;
+	display: block;
+	float: left;
+}
+
 .cfglst{
 	margin-left: 10px;
 	clear: both;

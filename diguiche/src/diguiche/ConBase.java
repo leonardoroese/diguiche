@@ -27,6 +27,27 @@ public abstract class ConBase {
 		this.scontext = sconf;
 	}
 
+	
+	// ####################################################################
+	// TEST Connection
+	// ####################################################################
+	public boolean test() {
+		ServletContext ctx = this.scontext.getServletContext();
+		try {
+			Class.forName("org.postgresql.Driver");
+			DriverManager.getConnection(
+					"jdbc:postgresql://" + ctx.getInitParameter("dbHost") + ":" + ctx.getInitParameter("dbPort") + "/"
+							+ ctx.getInitParameter("dbName"),
+					ctx.getInitParameter("dbUser"), ctx.getInitParameter("dbPass"));
+			return true;
+		} catch (Exception e) {
+			this.resType = "E";
+			this.resMsg = e.getMessage();
+			return false;
+		}
+	}
+	
+	
 	// ####################################################################
 	// INSERT DB (MYSQL)
 	// ####################################################################
