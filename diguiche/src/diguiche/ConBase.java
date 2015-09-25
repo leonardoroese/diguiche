@@ -37,7 +37,6 @@ import java.util.ArrayList;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 
-
 import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.codecs.MySQLCodec;
 
@@ -47,22 +46,42 @@ public abstract class ConBase {
 	public String resMsg = null;
 	private ServletConfig scontext = null;
 
+	private String dbHost = null;
+	private String dbPort = null;
+	private String dbName = null;
+	private String dbUser = null;
+	private String dbPass = null;
+
 	public ConBase(ServletConfig sconf) {
 		this.scontext = sconf;
+		this.dbHost = sconf.getServletContext().getInitParameter("dbHost");
+		this.dbPort = sconf.getServletContext().getInitParameter("dbPort");
+		this.dbName = sconf.getServletContext().getInitParameter("dbName");
+		this.dbUser = sconf.getServletContext().getInitParameter("dbUser");
+		this.dbPass = sconf.getServletContext().getInitParameter("dbPass");
+
 	}
 
+	// ####################################################################
+	// FORCE config db
+	// ####################################################################
+	public void forceSetDB(String host, String port, String name, String user, String pass){
+		if(host != null)this.dbHost = host;
+		if(port != null)this.dbPort = port;
+		if(name != null)this.dbName = name;
+		if(user != null)this.dbUser = user;
+		if(pass != null)this.dbPass = pass;
+	}
+	
 	
 	// ####################################################################
 	// TEST Connection
 	// ####################################################################
 	public boolean test() {
-		ServletContext ctx = this.scontext.getServletContext();
 		try {
 			Class.forName("org.postgresql.Driver");
-			DriverManager.getConnection(
-					"jdbc:postgresql://" + ctx.getInitParameter("dbHost") + ":" + ctx.getInitParameter("dbPort") + "/"
-							+ ctx.getInitParameter("dbName"),
-					ctx.getInitParameter("dbUser"), ctx.getInitParameter("dbPass"));
+			DriverManager.getConnection("jdbc:postgresql://" + this.dbHost + ":" + this.dbPort + "/" + this.dbName,
+					this.dbUser, this.dbPass);
 			return true;
 		} catch (Exception e) {
 			this.resType = "E";
@@ -70,20 +89,18 @@ public abstract class ConBase {
 			return false;
 		}
 	}
-	
-	
+
 	// ####################################################################
 	// INSERT DB (MYSQL)
 	// ####################################################################
 	public boolean updateDB(String query) {
 		Connection connection = null;
-		ServletContext ctx = this.scontext.getServletContext();
 		try {
 			Class.forName("org.postgresql.Driver");
 			connection = (Connection) DriverManager.getConnection(
-					"jdbc:postgresql://" + ctx.getInitParameter("dbHost") + ":" + ctx.getInitParameter("dbPort") + "/"
-							+ ctx.getInitParameter("dbName"),
-					ctx.getInitParameter("dbUser"), ctx.getInitParameter("dbPass"));
+					"jdbc:postgresql://" + this.dbHost + ":" + this.dbPort + "/" + this.dbName, this.dbUser,
+					this.dbPass);
+
 			Statement stmt = (Statement) connection.createStatement();
 			stmt.execute(query);
 			connection.close();
@@ -105,16 +122,14 @@ public abstract class ConBase {
 
 	public ArrayList<DBLin> readDb(String query) {
 		Connection connection = null;
-		ServletContext ctx = this.scontext.getServletContext();
 		ResultSet rs = null;
 		ArrayList<DBLin> outres = null;
 
 		try {
 			Class.forName("org.postgresql.Driver");
 			connection = (Connection) DriverManager.getConnection(
-					"jdbc:postgresql://" + ctx.getInitParameter("dbHost") + ":" + ctx.getInitParameter("dbPort") + "/"
-							+ ctx.getInitParameter("dbName"),
-					ctx.getInitParameter("dbUser"), ctx.getInitParameter("dbPass"));
+					"jdbc:postgresql://" + this.dbHost + ":" + this.dbPort + "/" + this.dbName, this.dbUser,
+					this.dbPass);
 			Statement stmt = (Statement) connection.createStatement();
 			rs = stmt.executeQuery(query);
 			if (rs != null) {
