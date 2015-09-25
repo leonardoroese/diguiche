@@ -3,7 +3,7 @@ Author:    Leonardo Germano Roese
 Email:     leonardoroese@hotmail.com
 
 
-#ICEcoder License
+#DEGUICHE License
 ##Standard Open Source Initiative MIT License
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
