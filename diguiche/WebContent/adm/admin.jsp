@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="diguiche.mesa.*, diguiche.terminal.*, diguiche.display.*, diguiche.key.*;"%>
+<%@ page
+	import="diguiche.mesa.*, diguiche.terminal.*, diguiche.display.*, diguiche.key.*;"%>
 <%
 	Mesa mesa = new Mesa(this.getServletConfig());
 	Display display = new Display(this.getServletConfig());
@@ -14,8 +15,11 @@
 	linMesa[] mesas = null;
 	linTerminal[] terminais = null;
 	linKey[] keyso = null;
-	linKey[] keysn = null;
+	linKey[] keysnm = null;
 
+	//########################### VAR DEFINITION
+	String op = "";
+	String opid = "";
 	String subMesa = "";
 	String subDisplay = "";
 	String subTerminal = "";
@@ -31,7 +35,11 @@
 	String subReset = "";
 	String pagMsg = "";
 
-	// GET REQUESTS
+	//########################### GET REQUESTS
+	if (request.getParameter("op") != null)
+		op = request.getParameter("op").trim();
+	if (request.getParameter("opid") != null)
+		opid = request.getParameter("opid").trim();
 	if (request.getParameter("subMesa") != null)
 		subMesa = request.getParameter("subMesa").trim();
 	if (request.getParameter("subDisplay") != null)
@@ -58,6 +66,8 @@
 		keyDev = request.getParameter("keyDev").trim();
 	if (request.getParameter("keyTipo") != null)
 		keyTipo = request.getParameter("keyTipo").trim();
+
+	//########################### ACTIONS
 
 	if (subMesa.toUpperCase().equals("NOVA")) {
 		linemesa.num = mesaNum;
@@ -87,14 +97,14 @@
 		lineterminal.num = terminalNum;
 		lineterminal.code = terminalCode;
 
-		linTerminal createdterminal = terminal.newTerminal(lineterminal); 
+		linTerminal createdterminal = terminal.newTerminal(lineterminal);
 		if (createdterminal != null) {
 			pagMsg = "Novo terminal criado com sucesso.";
 		} else {
 			pagMsg = mesa.resMsg;
 		}
 	}
-	
+
 	if (subKey.toUpperCase().equals("GERAR")) {
 		if (key.newKey(keyTipo, keyDev) != null) {
 			pagMsg = "Senha gerada.";
@@ -108,145 +118,215 @@
 		pagMsg = key.resMsg;
 	}
 
+	// Delete Display (id)
+	if (op.trim().toUpperCase().equals("DD")) {
+		display.delDisplay(opid);
+		pagMsg = display.resMsg;
+	}
+	// Delete Mesa (id)
+	if (op.trim().toUpperCase().equals("DM")) {
+		mesa.delMesa(opid);
+		pagMsg = mesa.resMsg;
+	}
+	// Delete Terminal (id)
+	if (op.trim().toUpperCase().equals("DT")) {
+		terminal.delTerminal(opid);
+		pagMsg = terminal.resMsg;
+	}
+
+	//########################### LOAD DATA
+
 	mesas = mesa.listMesa(null, null);
 	displays = display.listDisplay(null, null);
 	terminais = terminal.listTerminal(null, null);
-	keyso = key.listKeys(null, null, false, false, false, false);
-	keysn = key.listKeys(null, null, true, false, false, false);
+	keyso = key.listKeys(null, null, false, true, false, true);
+	keysnm = key.listKeys(null, null, true, true, true, true);
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>DIGUICHE - Admin</title>
+<link href="../css/admin.css" rel="stylesheet">
+<script>
+	function delDisp(op, id) {
+		document.getElementById('op').value = op;
+		document.getElementById('opid').value = id;
+		document.getElementById('frmAdmin').submit();
+	}
+</script>
 </head>
 <body>
-
-<h3>MESAS</h3>
-<br>
-	<form name="frmMesas" id="frmMesas" action="admin.jsp" method="post">
-
-		<label>Num</label> <input type="text" name="mesaNum" id="mesaNum"
-			value="" /> <label>Código</label> <input type="text" name="mesaCode"
-			id="mesaCode" value="" /> <input type="submit" name="subMesa"
-			value="Nova" />
+	<form name="frmAdmin" id="frmAdmin" method="post" action="admin.jsp">
+		<input type="hidden" name="op" id="op" value="" /> <input
+			type="hidden" name="opid" id="opid" value="" />
 	</form>
-	<table>
-		<tr bgcolor="#EDEDED">
-			<td width="100">Número</td>
-			<td width="200">Código Dispoitivos</td>
-			<td width="100"></td>
-		</tr>
-		<%
-			if (mesas != null) {
-				for (linMesa l : mesas) {
-					out.print("<tr><td><a href='admin.jsp?act=&id=" + l.id + "'>" + l.num + "</a></td><td>" + l.code
-							+ "</td><td><a href=''>Remover</a></td>");
-				}
-
-			}
-		%>
-	</table>
-
+	<div class="tophead">
+		<div class="toplogo">DIGUICHE</div>
+		<div class="topversion">v1.0</div>
+	</div>
 	<br>
-	<h3>DISPLAYS</h3>
-	<br>
-	<form name="frmDisplays" id="frmDisplays" action="admin.jsp" method="post">
+	<h2 style="margin-left: 10px;">Administração e Monitoramento</h2>
 
-		<label>Num</label> <input type="text" name="displayNum" id="displayNum"
-			value="" /> <label>Código</label> <input type="text" name="displayCode"
-			id="displayCode" value="" /> <input type="submit" name="subDisplay"
-			value="Novo" />
-	</form>
-	<table>
-		<tr bgcolor="#EDEDED">
-			<td width="100">Número</td>
-			<td width="200">Código Dispoitivos</td>
-			<td width="100"></td>
-		</tr>
-		<%
-			if (displays != null) {
-				for (linDisplay l : displays) {
-					out.print("<tr><td><a href='admin.jsp?act=&id=" + l.id + "'>" + l.num + "</a></td><td>" + l.code
-							+ "</td><td><a href=''>Remover</a></td>");
-				}
+	<div class="admbox" style="width: 450px; height: 200px;">
+		<div class="admboxtit">MESAS</div>
+		<div class="admboxcontent">
+			<form name="frmMesas" id="frmMesas" action="admin.jsp" method="post">
+				<label>Num</label> <input type="text" style="width: 50px;"
+					name="mesaNum" id="mesaNum" value="" /> <label>Código</label> <input
+					type="text" name="mesaCode" id="mesaCode" value="" /> <input
+					type="submit" name="subMesa" value="Nova" />
+			</form>
+			<br>
+			<div style="height: 120px; overflow: auto;">
+				<table>
+					<tr class="thr">
+						<td width="100">Número</td>
+						<td width="200">Código Dispoitivos</td>
+						<td width="100"></td>
+					</tr>
+					<%
+						if (mesas != null) {
+							for (linMesa l : mesas) {
+								out.print("<tr class='thl'><td>" + l.num + "</td><td>" + l.code
+										+ "</td><td><div style='cursor: pointer' onclick=\"delDisp('DM', '" + l.id
+										+ "')\">Remover</div></td>");
+							}
 
-			}
-		%>
-	</table>
+						}
+					%>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="admbox" style="width: 450px; height: 200px;">
+		<div class="admboxtit">DISPLAYS</div>
+		<div class="admboxcontent">
+			<form name="frmDisplays" id="frmDisplays" action="admin.jsp"
+				method="post">
 
-	<br>
-	<h3>TERMINAIS</h3>
-	<br>
+				<label>Num</label> <input type="text" style="width: 50px;"
+					name="displayNum" id="displayNum" value="" /> <label>Código</label>
+				<input type="text" name="displayCode" id="displayCode" value="" />
+				<input type="submit" name="subDisplay" value="Novo" />
+			</form>
+			<br>
+			<div style="height: 120px; overflow: auto;">
+				<table>
+					<tr class="thr">
+						<td width="100">Número</td>
+						<td width="200">Código Dispoitivos</td>
+						<td width="100"></td>
+					</tr>
+					<%
+						if (displays != null) {
+							for (linDisplay l : displays) {
+								out.print("<tr class='thl'><td>" + l.num + "</td><td>" + l.code
+										+ "</td><td><div style='cursor: pointer' onclick=\"delDisp('DD', '" + l.id
+										+ "')\">Remover</div></td>");
+							}
 
-	<form name="frmDisplays" id="frmDisplays" action="admin.jsp" method="post">
+						}
+					%>
+				</table>
+			</div>
+		</div>
+	</div>
 
-		<label>Num</label> <input type="text" name="terminalNum" id="terminalNum"
-			value="" /> <label>Código</label> <input type="text" name="terminalCode"
-			id="terminalCode" value="" /> <input type="submit" name="subTerminal"
-			value="Novo" />
-	</form>
-	<table>
-		<tr bgcolor="#EDEDED">
-			<td width="100">Número</td>
-			<td width="200">Código Dispoitivos</td>
-			<td width="100"></td>
-		</tr>
-		<%
-			if (terminais != null) {
-				for (linTerminal l : terminais) {
-					out.print("<tr><td><a href='admin.jsp?act=&id=" + l.id + "'>" + l.num + "</a></td><td>" + l.code
-							+ "</td><td><a href=''>Remover</a></td>");
-				}
+	<div class="admbox" style="width: 450px; height: 200px;">
+		<div class="admboxtit">TERMINAIS</div>
+		<div class="admboxcontent">
+			<form name="frmDisplays" id="frmDisplays" action="admin.jsp"
+				method="post">
 
-			}
-		%>
-	</table>
+				<label>Num</label> <input style="width: 50px;" type="text"
+					name="terminalNum" id="terminalNum" value="" /> <label>Código</label>
+				<input type="text" name="terminalCode" id="terminalCode" value="" />
+				<input type="submit" name="subTerminal" value="Novo" />
+			</form>
+			<br>
+			<div style="height: 120px; overflow: auto;">
+				<table>
+					<tr class="thr">
+						<td width="100">Número</td>
+						<td width="200">Código Dispoitivos</td>
+						<td width="100"></td>
+					</tr>
+					<%
+						if (terminais != null) {
+							for (linTerminal l : terminais) {
+								out.print("<tr class='thl'><td>" + l.num + "</td><td>" + l.code
+										+ "</td><td><div style='cursor: pointer' onclick=\"delDisp('DT', '" + l.id
+										+ "')\">Remover</div></td>");
+							}
 
-	<br>
-	<br>
-	<form name="frmMesas" id="frmMesas" action="admin.jsp" method="post">
-		<label>Dispositivo</label> <input type="text" name="keyDev"
-			id="keyDev" value="" /> <select name="keyTipo">
-			<option value="1">Normal</option>
-			<option value="2">Preferencial</option>
-		</select> <input type="submit" name="subKey" value="Gerar" /><input
-			type="submit" name="subReset" value="Reiniciar" />
-	</form>
+						}
+					%>
+				</table>
+			</div>
+		</div>
+	</div>
 
-	<table>
-		<tr bgcolor="#EDEDED">
-			<td width="100">Id</td>
-			<td width="50">Tipo</td>
-			<td width="50">Seq.</td>
-			<td width="120">Dt Reg</td>
-		</tr>
-		<%
-			if (keyso != null) {
-				for (linKey l : keyso) {
-					out.print("<tr bgcolor='#F7F7F7'>");
-					out.print("<td>" + l.id + "</td>");
-					out.print("<td>" + l.tipo + "</td>");
-					out.print("<td>" + l.seq + "</td>");
-					out.print("<td>" + l.dtreg + "</td>");
-					out.print("</tr>");
+	<div class="admbox" style="width: 520px; height: 250px;">
+		<div class="admboxtit">SENHAS</div>
+		<div class="admboxcontent">
+			<form name="frmMesas" id="frmMesas" action="admin.jsp" method="post">
+				<label>Dispositivo</label> <input type="text" name="keyDev"
+					id="keyDev" value="" /> <select name="keyTipo">
+					<option value="1">Normal</option>
+					<option value="2">Preferencial</option>
+				</select> <input type="submit" name="subKey" value="Gerar" />&nbsp;&nbsp;&nbsp;&nbsp;<input
+					type="submit" name="subReset" value="Reiniciar" />
+			</form>
+			<br> <strong>Senhas (últimas na fila)</strong> <br>
+			<div style="height: 160px; overflow: auto;">
+				<table>
+					<tr class="thr">
+						<td width="50" align="center">Id</td>
+						<td width="50" align="center">Senha</td>
+						<td width="120" align="center">Data do registro</td>
+					</tr>
+					<%
+						String msec = "";
+						if (keysnm != null) {
+							for (linKey l : keysnm) {
+								msec = l.seq;
+								for(int i = msec.trim().length(); i < 3; i++)
+									msec = "0"+msec;
+								if(l.tipo.trim().toUpperCase().equals("N"))
+									msec = "N"+msec;
+								else
+									msec = "P"+msec;
+								out.print("<tr class='thl' style='background-color:#ffee00'>");
+								out.print("<td align='center'>" + l.id + "</td>");
+								out.print("<td align='center'>" + msec + "</td>");
+								out.print("<td align='center'>" + l.dtreg + "</td>");
+								out.print("</tr>");
 
-				}
-			}
-			if (keysn != null) {
-				for (linKey l : keysn) {
-					out.print("<tr>");
-					out.print("<td>" + l.id + "</td>");
-					out.print("<td>" + l.tipo + "</td>");
-					out.print("<td>" + l.seq + "</td>");
-					out.print("<td>" + l.dtreg + "</td>");
-					out.print("</tr>");
+							}
+						}
+						if (keyso != null) {
+							for (linKey l : keyso) {
+								msec = l.seq;
+								for(int i = msec.trim().length(); i < 3; i++)
+									msec = "0"+msec;
+								if(l.tipo.trim().toUpperCase().equals("N"))
+									msec = "N"+msec;
+								else
+									msec = "P"+msec;
+								out.print("<tr class='thl'>");
+								out.print("<td align='center'>" + l.id + "</td>");
+								out.print("<td align='center'>" + msec + "</td>");
+								out.print("<td align='center'>" + l.dtreg + "</td>");
+								out.print("</tr>");
 
-				}
-			}
-		%>
-	</table>
-
+							}
+						}
+					%>
+				</table>
+			</div>
+		</div>
+	</div>
 
 	<%
 		if (pagMsg.trim().length() > 0)

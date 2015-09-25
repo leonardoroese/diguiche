@@ -267,7 +267,7 @@ public class Key extends ConBase {
 	// # RESET KEY
 	// ###############################################################################
 	public boolean resetKey() {
-		String q = "INSERT INTO keys (tipo, seq, dtreg) VALUES ('0', 0, CURRENT_TIMESTAMP)";
+		String q = "INSERT INTO keys (mesa, tipo, seq, dtreg) VALUES (0, '0', 0, CURRENT_TIMESTAMP)";
 		if (this.updateDB(q)) {
 			this.resType = "S";
 			this.resMsg = "Senha reinicializada";

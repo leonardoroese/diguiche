@@ -1,0 +1,131 @@
+html, body{
+width: 100%;
+height: 100%;	
+padding: 0px;
+margin: 0px;	
+font-family: Verdana, Arial;
+}
+
+.tophead{
+	width: 100%;
+	height: 40px;
+	border-bottom: solid 1px #000;
+	background-color: #AAA;
+	color: White;
+}
+.toplogo{
+	font-size: 22px;
+	margin-top: 8px;
+	font-weight: bold;
+	color: White;
+	position: relative;
+	float: left;
+	margin-left: 10px;
+}
+.topversion{
+	font-size: 16px;
+	margin-top: 8px;
+	text-decoration: itallic;
+	font-weight: bold;
+	color: Yellow;
+	position: relative;
+	float: right;
+	margin-right: 10px;
+}
+
+.admbox{
+	position: relative;
+	float: left;
+	margin: 10px;
+	min-width: 300px;
+    min-height: 50px;
+	background-color: #F0F0F0;
+	border-radius: 4px;
+	overflow: hidden;
+	box-shadow: 2px 2px 2px #CCC;
+	font-size: 12px;
+}
+.admboxtit{
+	width: 100%;
+	height: 20px;
+	padding-top: 4px;
+	font-weight: bold;
+	text-align: center;
+	background-color: #777;
+	color: #FFF;
+	border-radius: 4px;
+}
+.admboxcontent{
+	height: 98%;
+	overflow: auto;
+	padding: 4px;
+	font-size: 14px;
+}
+
+.admboxcontent input[type="text"]{
+	border-radius: 4px;
+	padding: 2px;
+	height: 18px;
+	border: solid 1px #555;
+	font-size: 12px;
+}
+
+.admboxcontent input[type="submit"]{
+	border-radius: 4px;
+	background-color: #777;
+	color: #FFF;
+	text-slign: center;
+	min-width: 50px;
+	padding: 2px;
+	height: 20px;
+	border: solid 1px #555;
+	font-size: 12px;
+	font-weight: bold;
+	cursor: pointer;
+}
+.admboxcontent input[type="submit"]:hover{
+	background-color: #999;
+}
+
+.admboxcontent table{
+	width: 100%;
+}
+
+.admboxcontent .thr{
+	background-color: #777;
+	color: #FFF;
+	padding: 4px;
+	font-weight: bold;
+}
+.admboxcontent .thl{
+	background-color: #FFF;	
+}
+
+.admboxcontent .thl:hover{	
+	background-color: #F9F9F9;
+}
+.cfgok{
+	color: DarkGreen;
+	display: block;
+	float: left;
+}
+
+.cfgnok{
+	color: Red;
+	display: block;
+	float: left;
+}
+
+.cfglst{
+	margin-left: 10px;
+	clear: both;
+}
+
+.cfglst strong{
+	border-bottom: solid 2px #FFF;
+	display: block;
+	position: relative;
+	float: left;
+	width: 150px;
+	background-color: #F0F0F0;
+}

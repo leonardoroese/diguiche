@@ -1,0 +1,10 @@
+CREATE SEQUENCE terminal_id_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 5
+  CACHE 1;
+ALTER TABLE terminal_id_seq
+  OWNER TO dg;
+GRANT ALL ON SEQUENCE terminal_id_seq TO dg;
+GRANT ALL ON SEQUENCE terminal_id_seq TO public;
