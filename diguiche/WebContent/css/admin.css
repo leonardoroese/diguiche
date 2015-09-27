@@ -172,18 +172,21 @@ h2{
 	background-color: #FFDCA8;
 }
 .cfgok{
+	background-color: #FFF;
 	color: DarkGreen;
 	display: block;
 	float: left;
 }
 
 .cfgnok{
+	background-color: #FFF;
 	color: Red;
 	display: block;
 	float: left;
 }
 
 .cfgwok{
+	background-color: #FFF;
 	color: Orange;
 	display: block;
 	float: left;
@@ -200,5 +203,6 @@ h2{
 	position: relative;
 	float: left;
 	width: 150px;
-	background-color: #F0F0F0;
+	background-color: #333366;
+	color: #FFF;
 }

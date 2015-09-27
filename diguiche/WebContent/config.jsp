@@ -66,9 +66,13 @@
 
 	<form name="frmconfig" id="frmconfig" method="post" action="config.jsp">
 	<div class="tophead">
-		<div class="toplogo">DIGUICHE</div>
-		<div class="topversion">v1.0</div>
+		<div class="toplogo"><img src='img/dg.png' alt='DIGUICHE' height='48' /> <span>DIGITAL GUICHÊ</span> </div>
+		<div class="topversion">
+		<a href='https://github.com/leonardoroese/diguiche' target='_blank' >https://github.com/leonardoroese/diguiche</a>
+		<br>
+		versão: 1.0</div>
 	</div>
+
 	<br>
 	<h2 style="margin-left: 10px;">CONFIGURAÇÃO</h2>
 
