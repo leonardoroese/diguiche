@@ -27,4 +27,25 @@ function checkhost(){
 	} else {
 		return true;
 	}
+	
+}
+
+function syncDev(tipo){
+	
+	if(myid != null && myid.trim().length > 0){
+		var formData = {
+				device : myid,
+				tipo: tipo
+			};
+		$.ajax({
+			url : myhost + "/ws/sync.jsp",
+			type : "POST",
+			data : formData,
+			success : function(data, textStatus, jqXHR) {
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+			}
+		});
+
+	}
 }

@@ -27,13 +27,14 @@ SOFTWARE.
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page
-	import="diguiche.mesa.*, diguiche.terminal.*, diguiche.display.*, diguiche.key.*;"%>
+	import="diguiche.Sync, diguiche.mesa.*, diguiche.terminal.*, diguiche.display.*, diguiche.key.*;"%>
 <%
 	Mesa mesa = new Mesa(this.getServletConfig());
 	Display display = new Display(this.getServletConfig());
 	Terminal terminal = new Terminal(this.getServletConfig());
 	Key key = new Key(this.getServletConfig());
-
+	Sync sync = new Sync(this.getServletConfig());
+	
 	linMesa linemesa = new linMesa();
 	linDisplay linedisplay = new linDisplay();
 	linTerminal lineterminal = new linTerminal();
@@ -214,7 +215,10 @@ SOFTWARE.
 					<%
 						if (mesas != null) {
 							for (linMesa l : mesas) {
-								out.print("<tr class='thl'><td>" + l.num + "</td><td>" + l.code
+								String son = "OFF";
+								if(sync.isOnline(l.id, "A") != null)
+									son = "ON";
+								out.print("<tr class='thl'><td>" + l.num + "("+ son +")</td><td>" + l.code
 										+ "</td><td><div style='cursor: pointer' onclick=\"delDisp('DM', '" + l.id
 										+ "')\">Remover</div></td>");
 							}
@@ -247,7 +251,10 @@ SOFTWARE.
 					<%
 						if (displays != null) {
 							for (linDisplay l : displays) {
-								out.print("<tr class='thl'><td>" + l.num + "</td><td>" + l.code
+								String son = "oFF";
+								if(sync.isOnline(l.id, "D") != null)
+									son = "ON";
+								out.print("<tr class='thl'><td>" + l.num + "("+ son +")</td><td>" + l.code
 										+ "</td><td><div style='cursor: pointer' onclick=\"delDisp('DD', '" + l.id
 										+ "')\">Remover</div></td>");
 							}
@@ -281,7 +288,10 @@ SOFTWARE.
 					<%
 						if (terminais != null) {
 							for (linTerminal l : terminais) {
-								out.print("<tr class='thl'><td>" + l.num + "</td><td>" + l.code
+								String son = "OFF";
+								if(sync.isOnline(l.id, "T") != null)
+									son = "ON";
+								out.print("<tr class='thl'><td>" + l.num + "("+ son +")</td><td>" + l.code
 										+ "</td><td><div style='cursor: pointer' onclick=\"delDisp('DT', '" + l.id
 										+ "')\">Remover</div></td>");
 							}
@@ -319,7 +329,7 @@ SOFTWARE.
 								msec = l.seq;
 								for(int i = msec.trim().length(); i < 3; i++)
 									msec = "0"+msec;
-								if(l.tipo.trim().toUpperCase().equals("N"))
+								if(l.tipo.trim().toUpperCase().equals("1"))
 									msec = "N"+msec;
 								else
 									msec = "P"+msec;
@@ -336,7 +346,7 @@ SOFTWARE.
 								msec = l.seq;
 								for(int i = msec.trim().length(); i < 3; i++)
 									msec = "0"+msec;
-								if(l.tipo.trim().toUpperCase().equals("N"))
+								if(l.tipo.trim().toUpperCase().equals("1"))
 									msec = "N"+msec;
 								else
 									msec = "P"+msec;

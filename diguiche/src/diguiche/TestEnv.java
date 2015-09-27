@@ -24,17 +24,27 @@ SOFTWARE.
 
 package diguiche;
 
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletConfig;
 
 public class TestEnv extends ConBase {
+	private ServletConfig sconf = null;
 
 	public TestEnv(ServletConfig sconf) {
 		super(sconf);
+		this.sconf = sconf;
 		// TODO Auto-generated constructor stub
 	}
 
+	// ######################################################################################
+	// Verify Tables
+	// ######################################################################################
 	public boolean testTables() {
 		String err = "";
 		String errseq = "";
@@ -97,6 +107,10 @@ public class TestEnv extends ConBase {
 		}
 	}
 
+	// ######################################################################################
+	// Verify PERMISSIONS
+	// ######################################################################################
+
 	public boolean testPermissions() {
 		this.resMsg = "";
 		this.resType = "";
@@ -124,23 +138,31 @@ public class TestEnv extends ConBase {
 				"SELECT * FROM pg_tables WHERE has_table_privilege ('public', 'terminal', 'select') AND schemaname NOT IN ('pg_catalog', 'information_schema')") == null)
 			err = err + "terminal|";
 
-		//** Dont need if db-owner***
+		// ** Dont need if db-owner***
 		// check sequence display
-		//if (this.readDb(
-		//		"SELECT * FROM pg_tables WHERE has_table_privilege ('public', 'display_id_seq', 'select') AND schemaname NOT IN ('pg_catalog', 'information_schema')") == null)
-		//	errseq = errseq + "display|";
+		// if (this.readDb(
+		// "SELECT * FROM pg_tables WHERE has_table_privilege ('public',
+		// 'display_id_seq', 'select') AND schemaname NOT IN ('pg_catalog',
+		// 'information_schema')") == null)
+		// errseq = errseq + "display|";
 		// check sequence keys
-		//if (this.readDb(
-		//		"SELECT * FROM pg_tables WHERE has_table_privilege ('public', 'keys_id_seq', 'select') AND schemaname NOT IN ('pg_catalog', 'information_schema')") == null)
-		//	errseq = errseq + "keys|";
+		// if (this.readDb(
+		// "SELECT * FROM pg_tables WHERE has_table_privilege ('public',
+		// 'keys_id_seq', 'select') AND schemaname NOT IN ('pg_catalog',
+		// 'information_schema')") == null)
+		// errseq = errseq + "keys|";
 		// check sequence mesa
-		//if (this.readDb(
-		//		"SELECT * FROM pg_tables WHERE has_table_privilege ('public', 'mesa_id_seq', 'select') AND schemaname NOT IN ('pg_catalog', 'information_schema')") == null)
-		//	errseq = errseq + "mesa|";
+		// if (this.readDb(
+		// "SELECT * FROM pg_tables WHERE has_table_privilege ('public',
+		// 'mesa_id_seq', 'select') AND schemaname NOT IN ('pg_catalog',
+		// 'information_schema')") == null)
+		// errseq = errseq + "mesa|";
 		// check sequence terminal
-		//if (this.readDb(
-		//		"SELECT * FROM pg_tables WHERE has_table_privilege ('public', 'terminal_id_seq', 'select') AND schemaname NOT IN ('pg_catalog', 'information_schema')") == null)
-		//	errseq = errseq + "terminal|";
+		// if (this.readDb(
+		// "SELECT * FROM pg_tables WHERE has_table_privilege ('public',
+		// 'terminal_id_seq', 'select') AND schemaname NOT IN ('pg_catalog',
+		// 'information_schema')") == null)
+		// errseq = errseq + "terminal|";
 
 		String reserr = "";
 		if (err.trim().length() > 0)
@@ -159,56 +181,55 @@ public class TestEnv extends ConBase {
 		}
 	}
 
+	// ######################################################################################
+	// INITIAL CREATE
+	// ######################################################################################
+
 	public boolean createAll() {
-		String q = "CREATE ROLE dg LOGIN" + "  ENCRYPTED PASSWORD 'md545427346a3dea51c7a10fe6e3584f267'"
-				+ "  NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;" + "CREATE DATABASE diguiche"
-				+ "  WITH OWNER = dg" + "       ENCODING = 'UTF8'" + "       TABLESPACE = pg_default"
-				+ "       LC_COLLATE = 'en_US.UTF-8'" + "       LC_CTYPE = 'en_US.UTF-8'"
-				+ "       CONNECTION LIMIT = -1;" + "ALTER DEFAULT PRIVILEGES"
-				+ "   GRANT INSERT, SELECT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER ON TABLES" + "    TO public;"
-				+ "ALTER DEFAULT PRIVILEGES"
-				+ "    GRANT INSERT, SELECT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER ON TABLES" + "    TO dg;";
-		if (this.updateDB(q)) {
-			this.forceSetDB(null,null, "diguiche", "dg", "dg");
-			q = "CREATE TABLE display" + "(" + "  id serial NOT NULL," + "  num character varying(20),"
-					+ "  code character varying(20)," + "  CONSTRAINT displayid PRIMARY KEY (id)" + ")" + "WITH ("
-					+ "  OIDS=FALSE" + ");" + "ALTER TABLE display" + "  OWNER TO dg;"
-					+ "GRANT ALL ON TABLE display TO public;" + "GRANT ALL ON TABLE display TO dg;" + ""
-					+ "CREATE TABLE keys" + "(" + "  id serial NOT NULL," + "  mesa bigint NOT NULL,"
-					+ "  tipo character varying(1)," + "  seq integer," + "  dtreg timestamp without time zone,"
-					+ "  dtview timestamp without time zone," + "  viewer character varying(20),"
-					+ "  CONSTRAINT senhaid PRIMARY KEY (id)" + ")" + "WITH (" + "OIDS=FALSE" + ");"
-					+ "ALTER TABLE keys" + "  OWNER TO dg;" + "GRANT ALL ON TABLE keys TO public;"
-					+ "GRANT ALL ON TABLE keys TO dg;" + "" + "CREATE TABLE keysdisplay" + "("
-					+ "  idkey bigint NOT NULL," + "  iddisplay bigint NOT NULL,"
-					+ "  dtview timestamp without time zone," + "CONSTRAINT kdispview PRIMARY KEY (idkey, iddisplay)"
-					+ ")" + "WITH (" + " OIDS=FALSE" + ");" + "ALTER TABLE keysdisplay" + "  OWNER TO dg;"
-					+ "GRANT ALL ON TABLE keysdisplay TO public;" + "GRANT ALL ON TABLE keysdisplay TO dg;"
-					+ "CREATE TABLE mesa" + "(" + "  id serial NOT NULL," + "  num character varying(20),"
-					+ "  code character varying(20)," + "  CONSTRAINT mesaid PRIMARY KEY (id)" + ")" + "WITH ("
-					+ "  OIDS=FALSE" + ");" + "ALTER TABLE mesa" + "  OWNER TO dg;"
-					+ "GRANT ALL ON TABLE mesa TO public;" + "GRANT ALL ON TABLE mesa TO dg;" + ""
-					+ "CREATE TABLE terminal" + "(" + "  id serial NOT NULL," + "  num character varying(20),"
-					+ "  code character varying(20)," + "  CONSTRAINT terminalid PRIMARY KEY (id)" + ")" + "WITH ("
-					+ "  OIDS=FALSE" + ");" + "ALTER TABLE terminal" + "  OWNER TO dg;"
-					+ "GRANT ALL ON TABLE terminal TO public;" + "GRANT ALL ON TABLE terminal TO dg;";
-			if (this.updateDB(q)) {
-				q = "CREATE SEQUENCE display_id_seq" + "  INCREMENT 1" + "  MINVALUE 1"
-						+ "  MAXVALUE 9223372036854775807" + "  START 2" + "CACHE 1;" + "ALTER TABLE display_id_seq"
-						+ "OWNER TO dg;" + "GRANT ALL ON SEQUENCE display_id_seq TO dg;"
-						+ "GRANT ALL ON SEQUENCE display_id_seq TO public;" + "CREATE SEQUENCE keys_id_seq"
-						+ "INCREMENT 1" + "MINVALUE 1" + "MAXVALUE 9223372036854775807" + "START 41" + "CACHE 1;"
-						+ "ALTER TABLE keys_id_seq" + "OWNER TO dg;" + "GRANT ALL ON SEQUENCE keys_id_seq TO dg;"
-						+ "GRANT ALL ON SEQUENCE keys_id_seq TO public;" + "CREATE SEQUENCE mesa_id_seq" + "INCREMENT 1"
-						+ "MINVALUE 1" + "MAXVALUE 9223372036854775807" + "START 2" + "CACHE 1;"
-						+ "ALTER TABLE mesa_id_seq" + "OWNER TO dg;" + "GRANT ALL ON SEQUENCE mesa_id_seq TO dg;"
-						+ "GRANT ALL ON SEQUENCE mesa_id_seq TO public;" + "CREATE SEQUENCE terminal_id_seq"
-						+ "  INCREMENT 1" + "  MINVALUE 1" + "MAXVALUE 9223372036854775807" + "START 5" + "CACHE 1;"
-						+ "ALTER TABLE terminal_id_seq" + "OWNER TO dg;"
-						+ "GRANT ALL ON SEQUENCE terminal_id_seq TO dg;"
-						+ "GRANT ALL ON SEQUENCE terminal_id_seq TO public;";
-					
-				if (this.updateDB(q)) {
+		String roledb = "";
+		String tabs = "";
+		String seqs = "";
+		this.resMsg = "";
+		this.resType = "";
+		
+		// Role
+		roledb = roledb + this.readSQLFile("roledg.sql");
+		if(this.resType == "E")return false;
+		// DB
+		roledb = roledb + this.readSQLFile("dbcreate.sql");
+		if(this.resType == "E")return false;
+		// Table display
+		tabs = tabs + this.readSQLFile("tbdisplay.sql");
+		if(this.resType == "E")return false;
+		// Table keys
+		tabs = tabs + this.readSQLFile("tbkeys.sql");
+		if(this.resType == "E")return false;
+		// Table keysdisplay
+		tabs = tabs + this.readSQLFile("tbkeysdisplay.sql");
+		if(this.resType == "E")return false;
+		// Table mesa
+		tabs = tabs + this.readSQLFile("tbmesa.sql");
+		if(this.resType == "E")return false;
+		// Table terminal
+		tabs = tabs + this.readSQLFile("tbterminal.sql");
+		if(this.resType == "E")return false;
+		// Seq display
+		seqs = seqs + this.readSQLFile("seqdisplay.sql");
+		if(this.resType == "E")return false;
+		// Seq keys
+		seqs = seqs + this.readSQLFile("seqkeys.sql");
+		if(this.resType == "E")return false;
+		// Seq mesa
+		seqs = seqs + this.readSQLFile("seqmesa.sql");
+		if(this.resType == "E")return false;
+		// Seq terminal
+		seqs = seqs + this.readSQLFile("seqterminal.sql");
+		if(this.resType == "E")return false;
+		
+		if (this.updateDB(roledb)) {
+			this.forceSetDB(null, null, "diguiche", "dg", "dg");
+			if (this.updateDB(tabs)) {
+				if (this.updateDB(seqs)) {
 					return true;
 				} else {
 					this.resMsg = "ERRO: criação das sequências: " + this.resMsg;
@@ -221,6 +242,30 @@ public class TestEnv extends ConBase {
 			this.resMsg = "ERRO: criação do banco: " + this.resMsg;
 		}
 		return false;
+	}
+
+	
+	// ######################################################################################
+	// READ SQL FILES
+	// ######################################################################################
+
+	private String readSQLFile(String name) {
+		String ret = "";
+		try {
+			// Seq Display SQL
+			List<String> fl = Files.readAllLines(
+					Paths.get(this.sconf.getServletContext().getRealPath("/configscripts/"+name) ),
+					StandardCharsets.UTF_8);
+			if (fl != null)
+				for (String s : fl) {
+					ret = ret + s;
+				}
+			return ret;
+		} catch (Exception ex) {
+		}
+		this.resType= "E";
+		this.resMsg = "ERRO: leitura do arquivo: " + name;
+		return "";
 	}
 
 }

@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/plain; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page
-	import="diguiche.display.*, diguiche.key.*, org.json.JSONObject, org.json.JSONArray, org.json.JSONException;"%>
+	import="diguiche.Sync, diguiche.display.*, diguiche.key.*, org.json.JSONObject, org.json.JSONArray, org.json.JSONException;"%>
 
 <%
 	String device = "";
 	Key key = new Key(this.getServletConfig());
 	Display display = new Display(this.getServletConfig());
-
+	Sync sync = new Sync(this.getServletConfig());
+	
 	linKey[] keyso = null;
 	linKey[] keysn = null;
 	JSONObject json = new JSONObject();
@@ -15,15 +16,16 @@
 	JSONArray jsonn;
 	JSONArray jsonos = new JSONArray();
 	JSONArray jsonns = new JSONArray();
+	linDisplay[] ld = null;
 
 	if (request.getParameter("device") != null)
 		device = request.getParameter("device").trim();
 
-	if (display.listDisplay(null, device) == null) {
+	ld = display.listDisplay(null, device); 
+	if (ld == null) {
 		out.print("E: Dispositivo não encontrado");
-
 	} else {
-
+		sync.syncDevice(ld[0].id, "D", request.getRemoteHost());
 		keyso = key.listKeys(null,device, false, true, false, true);
 		keysn = key.listKeys(null,device, true, true, false, false);
 		JSONArray jsonArrNames = new JSONArray();
@@ -69,6 +71,7 @@
 		}
 		json.put("kold", jsonos.toString());
 		json.put("knew", jsonns.toString());
+		json.put("eta", key.getETA());
 		out.print(json.toString());
 	}
 %>

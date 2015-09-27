@@ -2,17 +2,17 @@ if (checkhost()) {
 	document.getElementById("codid").innerHTML = myid;
 }
 
-function resumecall(){
+function resumecall() {
 	myid = document.getElementById("myid").value;
 	myhost = document.getElementById("myhost").value;
 }
 
-function callNew(tipo){
-	if(myid != null && myid.trim().length > 0){
+function callNew(tipo) {
+	if (myid != null && myid.trim().length > 0) {
 		var formData = {
-				device : myid,
-				tipo: tipo
-			};
+			device : myid,
+			tipo : tipo
+		};
 		$.ajax({
 			url : myhost + "/ws/terminal.jsp",
 			type : "POST",
@@ -21,7 +21,8 @@ function callNew(tipo){
 				if (data.trim().indexOf("E:") >= 0) {
 					alert(data.trim().substring(2));
 				} else {
-					document.getElementById("thisid").innerHTML = data.trim().substring(2);
+					document.getElementById("thisid").innerHTML = data.trim()
+							.substring(2);
 				}
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
@@ -31,3 +32,7 @@ function callNew(tipo){
 
 	}
 }
+
+setInterval(function() {
+	syncDev("T");
+}, 5000);

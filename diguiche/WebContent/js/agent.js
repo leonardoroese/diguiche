@@ -59,3 +59,7 @@ function callNext(){
 	
 	}
 }
+
+setInterval(function() {
+	syncDev("A");
+}, 5000);

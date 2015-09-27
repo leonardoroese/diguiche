@@ -48,8 +48,8 @@
 	//########################### ACTIONS
 
 	if(subCreate.trim().toUpperCase().equals("CRIAR")){
-		if(test.createAll())
-			out.print("<script>alert('" + test.resMsg + "')</script>");
+		test.createAll();
+		out.print("<script>alert('" + test.resMsg + "');</script>");
 	}
 	//########################### LOAD DATA
 %>
@@ -154,7 +154,7 @@
 			value="<%out.print(request.getParameter("dbport"));%>" /> <br><label style="width: 100px; display: inline-block;">usuario</label><input
 			type="text" name="dbuser"
 			value="<%out.print(request.getParameter("dbuser"));%>" /> <br><label style="width: 100px; display: inline-block;">senha</label><input
-			type="text" name="dbpass"
+			type="password" name="dbpass"
 			value="<%out.print(request.getParameter("dbpass"));%>" /><br><br><input type="submit" name="subdb" value="Atualizar" />
 
 		<%

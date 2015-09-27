@@ -114,6 +114,11 @@ function checkUpdate(myhost, myid, curkey, oldkeys) {
 								}
 								boxh.innerHTML = strbh;
 							}
+							// Estimated Time
+							if(mt.eta != null){
+								document.getElementById('dveta').innerHTML = mt.eta;
+							}
+							
 						}
 					}// ERROR MESSAGE E:xxx
 				},

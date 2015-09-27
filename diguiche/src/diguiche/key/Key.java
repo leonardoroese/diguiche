@@ -24,7 +24,10 @@ SOFTWARE.
 */
 package diguiche.key;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.sql.Date;
 
 import javax.servlet.ServletConfig;
 
@@ -301,5 +304,39 @@ public class Key extends ConBase {
 			this.resMsg = "Não foi possível reinicializar senha";
 		}
 		return false;
+	}
+
+	// ###############################################################################
+	// # GET ETA (estimated time average)
+	// ###############################################################################
+	public String getETA() {
+		String eta = "-- --s";
+		String q = "";
+		ArrayList<DBLin> al = null;
+		
+		linKey[] lin = this.listKeys(null, null, false, true, false, true);
+		if(lin != null && lin.length > 0){
+			int cnt = 0;
+			long av = 0;
+			for (linKey l : lin){
+				//Get viewers
+				q = "SELECT * FROM keysdisplay WHERE idkey = " + l.id;
+				al = this.readDb(q);
+				if(al != null)
+					for (DBLin d : al){
+						Timestamp dtv = Timestamp.valueOf(d.getVal("dtview"));
+						Timestamp dtr = Timestamp.valueOf(l.dtreg);
+						av = av + (dtv.getTime() - dtr.getTime());
+						cnt++;
+					}
+			}
+			if(cnt > 0){
+				av = av / cnt;
+				Time t = new Time(av);
+				eta = t.toString().substring(3)+"s";
+			}
+		}
+		
+		return eta;
 	}
 }
