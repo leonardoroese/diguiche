@@ -3,8 +3,8 @@ var myhost = document.getElementById('myhost').value;
 
 function checkhost(){
 	if (myid.trim().length <= 0 || myhost.trim().length <= 0) {
-		var strhtml = "<div style='width: 100%; text-align: center;'>";
-		strhtml = strhtml + "<strong>Configuração</strong><br><br>";
+		var strhtml = "<div class='devconfbox' >";
+		strhtml = strhtml + "<div class='devconfboxtit'><div style='position: relative; display:inline-block; margin-top: 4px;'>Configuração</div></div><br>";
 		strhtml = strhtml
 				+ "<label class='conflabel'>Host: </label><input class='confinput' type='text' name='cfgHost' id='cfgHost' value='"
 				+ myhost + "' /><br><br>";
@@ -17,7 +17,7 @@ function checkhost(){
 				+ "document.getElementById('myhost').value=document.getElementById('cfgHost').value;"
 				+ "resumecall();"
 				+ "document.getElementById('msgbox').style.display='none';"
-				+ "\"/>";
+				+ "\"/><br><br>";
 
 		strhtml = strhtml + "</div>";
 

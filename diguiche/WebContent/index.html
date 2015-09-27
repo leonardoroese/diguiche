@@ -27,46 +27,37 @@ SOFTWARE.
   -->
 <html>
 <head>
-<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>DIGUICHE</title>
 <link href="css/common.css" rel="stylesheet">
-<link href="css/display.css" rel="stylesheet">
-<script>
-
-
-</script>
 </head>
 <body>
-	<input type="hidden" name="myid" id="myid" value="" />
-	<input type="hidden" name="myhost" id="myhost" value="" />
 	<div id="msgbox" class="msgbox" onclick="this.style.display='none'; "><div onclick="event.stopPropagation();" id="msginner" class="msginner"></div></div>
-	<div class="curnumboxh" onclick="if(document.getElementById('kbox').className != 'curkey blink') blikkey(); alertsnd.playclip();">
-		SENHA ATUAL
+	<div class="primelogo">
+		<img src="img/dg.png" height="100" alt="DIGUICHE" />
+		<br>
+		<span>DIGITAL GUICHÊ</span><br><br>
+		<div class="homelink" onclick="window.open('https://github.com/leonardoroese/diguiche');">https://github.com/leonardoroese/diguiche</div>
 	</div>
-	<div class="curnumboxanth">
-		Últimos Chamados
-	</div>
-	<div class="curnumbox">
-		<div id="kbox" class="curkey">----</div>
-		<div id="kmesa" class="curbox">----</div>
-	</div>
-
-	<div id="boxhist" class="curnumboxant">
-
-	</div>
-
-	<div  class="curavtimebox">
-		<img src="img/clock.svg" />
-		<div style="float: left; width: 60%;">
-		<div class="estimtimeh">Média de tempo:</div><br style="clear: both">
-		<div id="dveta" class="estimtime">--:--</div>
+	<br>
+	<div class="homemen">
+		<div class="homemenitem" onclick="window.location.href='config.jsp';">
+			Configurar
 		</div>
+		<div class="homemenitem" onclick="window.location.href='adm/admin.jsp';">
+			Administrar
+		</div>
+		<div class="homemenitem" onclick="window.open('display.html');">
+			Novo Display
+		</div>
+		<div class="homemenitem" onclick="window.open('terminal.html');">
+			Novo Terminal
+		</div>
+		<div class="homemenitem" onclick="window.open('agent.html');">
+			Novo Chamador
+		</div>
+	
 	</div>
 
 </body>
-
-<script src="js/jquery-2.1.4.min.js"></script>
-<script src="js/confdevices.js"></script>
-<script src="js/display.js"></script>
-
 </html>

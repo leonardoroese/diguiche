@@ -189,13 +189,15 @@ SOFTWARE.
 			type="hidden" name="opid" id="opid" value="" />
 	</form>
 	<div class="tophead">
-		<div class="toplogo">DIGUICHE</div>
-		<div class="topversion">v1.0</div>
+		<div class="toplogo"><img src='../img/dg.png' alt='DIGUICHE' height='48' /> <span>DIGITAL GUICHÊ</span> </div>
+		<div class="topversion">
+		<a href='https://github.com/leonardoroese/diguiche' target='_blank' >https://github.com/leonardoroese/diguiche</a>
+		<br>
+		versão: 1.0</div>
 	</div>
-	<br>
-	<h2 style="margin-left: 10px;">Administração e Monitoramento</h2>
-
-	<div class="admbox" style="width: 450px; height: 200px;">
+	<h2>Administração e Monitoramento</h2>
+	<br style=" clear: both;"><br style=" clear: both;">
+	<div class="admbox" style="width: 500px; height: 200px;">
 		<div class="admboxtit">MESAS</div>
 		<div class="admboxcontent">
 			<form name="frmMesas" id="frmMesas" action="admin.jsp" method="post">
@@ -210,16 +212,17 @@ SOFTWARE.
 					<tr class="thr">
 						<td width="100">Número</td>
 						<td width="200">Código Dispoitivos</td>
+						<td width="40" align='center'>Stat</td>
 						<td width="100"></td>
 					</tr>
 					<%
 						if (mesas != null) {
 							for (linMesa l : mesas) {
-								String son = "OFF";
+								String son = "offline";
 								if(sync.isOnline(l.id, "A") != null)
-									son = "ON";
-								out.print("<tr class='thl'><td>" + l.num + "("+ son +")</td><td>" + l.code
-										+ "</td><td><div style='cursor: pointer' onclick=\"delDisp('DM', '" + l.id
+									son = "online";
+								out.print("<tr class='thl'><td>" + l.num + "</td><td>" + l.code
+										+ "</td><td align='center'><div class='st"+son+"' title='"+son+"'></div></td><td><div style='cursor: pointer' onclick=\"delDisp('DM', '" + l.id
 										+ "')\">Remover</div></td>");
 							}
 
@@ -229,7 +232,7 @@ SOFTWARE.
 			</div>
 		</div>
 	</div>
-	<div class="admbox" style="width: 450px; height: 200px;">
+	<div class="admbox" style="width: 500px; height: 200px;">
 		<div class="admboxtit">DISPLAYS</div>
 		<div class="admboxcontent">
 			<form name="frmDisplays" id="frmDisplays" action="admin.jsp"
@@ -246,16 +249,17 @@ SOFTWARE.
 					<tr class="thr">
 						<td width="100">Número</td>
 						<td width="200">Código Dispoitivos</td>
+						<td width="40" align='center'>Stat</td>
 						<td width="100"></td>
 					</tr>
 					<%
 						if (displays != null) {
 							for (linDisplay l : displays) {
-								String son = "oFF";
+								String son = "offline";
 								if(sync.isOnline(l.id, "D") != null)
-									son = "ON";
+									son = "online";
 								out.print("<tr class='thl'><td>" + l.num + "("+ son +")</td><td>" + l.code
-										+ "</td><td><div style='cursor: pointer' onclick=\"delDisp('DD', '" + l.id
+										+ "</td><td align='center'><div class='st"+son+"' title='"+son+"'></div></td><td><div style='cursor: pointer' onclick=\"delDisp('DD', '" + l.id
 										+ "')\">Remover</div></td>");
 							}
 
@@ -266,7 +270,7 @@ SOFTWARE.
 		</div>
 	</div>
 
-	<div class="admbox" style="width: 450px; height: 200px;">
+	<div class="admbox" style="width: 500px; height: 200px;">
 		<div class="admboxtit">TERMINAIS</div>
 		<div class="admboxcontent">
 			<form name="frmDisplays" id="frmDisplays" action="admin.jsp"
@@ -283,16 +287,17 @@ SOFTWARE.
 					<tr class="thr">
 						<td width="100">Número</td>
 						<td width="200">Código Dispoitivos</td>
+						<td width="40" align='center'>Stat</td>
 						<td width="100"></td>
 					</tr>
 					<%
 						if (terminais != null) {
 							for (linTerminal l : terminais) {
-								String son = "OFF";
+								String son = "offline";
 								if(sync.isOnline(l.id, "T") != null)
-									son = "ON";
+									son = "online";
 								out.print("<tr class='thl'><td>" + l.num + "("+ son +")</td><td>" + l.code
-										+ "</td><td><div style='cursor: pointer' onclick=\"delDisp('DT', '" + l.id
+										+ "</td><td align='center'><div class='st"+son+"' title='"+son+"'></div></td><td><div style='cursor: pointer' onclick=\"delDisp('DT', '" + l.id
 										+ "')\">Remover</div></td>");
 							}
 
@@ -303,7 +308,7 @@ SOFTWARE.
 		</div>
 	</div>
 
-	<div class="admbox" style="width: 520px; height: 250px;">
+	<div class="admbox" style="width: 600px; height: 250px;">
 		<div class="admboxtit">SENHAS</div>
 		<div class="admboxcontent">
 			<form name="frmMesas" id="frmMesas" action="admin.jsp" method="post">
@@ -333,7 +338,7 @@ SOFTWARE.
 									msec = "N"+msec;
 								else
 									msec = "P"+msec;
-								out.print("<tr class='thl' style='background-color:#ffee00'>");
+								out.print("<tr class='thl' style='background-color:#E7FFE3'>");
 								out.print("<td align='center'>" + l.id + "</td>");
 								out.print("<td align='center'>" + msec + "</td>");
 								out.print("<td align='center'>" + l.dtreg + "</td>");

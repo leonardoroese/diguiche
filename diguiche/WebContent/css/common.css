@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 html, body{
+	font-family: Verdana, Arial;
 	width: 100%;
 	height: 100%;
 	margin: 0px;
@@ -47,7 +48,6 @@ html, body{
 	position: fixed;
 	left: 25%;
 	top: 40%;
-	background-color: #FFF;
 	display: inline-block;
 	z-index: 4001;
 }
@@ -55,26 +55,102 @@ html, body{
 .conflabel{
 	display: inline-block;
 	width: 120px;
-	
+	font-size: 14px;
 }
 
 .confinput{
 	padding: 3px;
 	min-height: 20px;
 	border-radius: 4px;
-	width: 150px;
+	border: solid 1px #333366;
+	width: 200px;
 	font-size: 12px;
 }
 
 .confsubmit{
-	border: outset 2px Black;
-	background-color: #EDEDED;
+	background-color: #333366;
+	color: #FFF;
 	border-radius: 4px;
 	padding: 4px;
-	text-align: center;
-	min-width: 60px;
-	min-height: 20px;
+	min-height: 22px;
+	border: solid 1px #FFF;
+	cursor: pointer;
+	font-size: 16px;
+	
 }
 .confsubmit:hover{
-	background-color: #CCC;
-	}
+	background-color: #FF9933;
+	color: #000;
+}
+	
+.primelogo{
+	position: absolute;
+	margin-top: 10%;
+	width: 600px;
+	left: 50%;
+	margin-left: -300px;
+	text-align: center;
+	height: 100px;		
+}
+.primelogo span{
+	clear: both;
+	position: relative;
+	margin-top: 20px;
+	font-size: 28px;
+	font-weight: bold;
+	color: #000;	
+}
+
+.homemen{
+	position: relative;
+	width: 300px;
+	left: 50%;
+	margin-left: -150px;
+	margin-top: 25%;
+}
+
+.homemenitem{
+	position: relative;
+	clear: both;
+	height: 30px;
+	padding-top: 10px;
+	width: 100%;
+	margin-top: 5px;
+	background-color: #333366;
+	color: #FFF;
+	font-size: 20px;
+	text-align: center;
+	cursor: pointer;
+	border-radius: 4px;
+}
+.homemenitem:hover{
+	background-color: #FF9933;
+	color: #000;
+}
+
+.homelink{
+	position: relative;
+	margin-top: 20px;
+	fontsize: 14px;
+	color: #333366;
+	cursor: pointer;
+	clear: both;
+}
+
+.homelink:hover{
+	color: #FF9933;
+}
+
+.devconfbox{
+	width: 100%; 
+	text-align: center;
+	background-color: #FFEDE8;
+}
+
+.devconfboxtit{
+	width: 100%; 
+	text-align: center;
+	background-color: #333366;
+	color: #FFF;
+	height: 28px;
+}
