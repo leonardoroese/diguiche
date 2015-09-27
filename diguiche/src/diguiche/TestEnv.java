@@ -72,7 +72,11 @@ public class TestEnv extends ConBase {
 		al = this.readDb("select count(*) AS res from pg_class where relname='terminal'");
 		if (al == null || al.get(0).getVal("res").equals("0"))
 			err = err + "terminal|";
-
+		// check sync
+		al = this.readDb("select count(*) AS res from pg_class where relname='sync'");
+		if (al == null || al.get(0).getVal("res").equals("0"))
+			err = err + "sync|";
+		
 		// check sequence display
 		al = this.readDb("select count(*) AS res from pg_class where relname='display_id_seq'");
 		if (al == null || al.get(0).getVal("res").equals("0"))
@@ -137,7 +141,10 @@ public class TestEnv extends ConBase {
 		if (this.readDb(
 				"SELECT * FROM pg_tables WHERE has_table_privilege ('public', 'terminal', 'select') AND schemaname NOT IN ('pg_catalog', 'information_schema')") == null)
 			err = err + "terminal|";
-
+		// check sync
+		if (this.readDb(
+				"SELECT * FROM pg_tables WHERE has_table_privilege ('public', 'sync', 'select') AND schemaname NOT IN ('pg_catalog', 'information_schema')") == null)
+			err = err + "sync|";
 		// ** Dont need if db-owner***
 		// check sequence display
 		// if (this.readDb(
@@ -212,6 +219,9 @@ public class TestEnv extends ConBase {
 		if(this.resType == "E")return false;
 		// Table terminal
 		tabs = tabs + this.readSQLFile("tbterminal.sql");
+		if(this.resType == "E")return false;
+		// Table sync
+		tabs = tabs + this.readSQLFile("tbsync.sql");
 		if(this.resType == "E")return false;
 		// Seq display
 		seqs = seqs + this.readSQLFile("seqdisplay.sql");
