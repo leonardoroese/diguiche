@@ -11,3 +11,5 @@ WITH (
 );
 ALTER TABLE sync
   OWNER TO dg;
+GRANT ALL ON TABLE sync TO public;
+GRANT ALL ON TABLE sync TO dg;
