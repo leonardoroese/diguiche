@@ -1,9 +1,9 @@
-Copyright: © 2015 DEGUICHE
+Copyright: © 2015 DIGUICHE
 Author:    Leonardo Germano Roese
 Email:     leonardoroese@hotmail.com
 
 
-#DEGUICHE License
+#DIGUICHE License
 ##Standard Open Source Initiative MIT License
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
